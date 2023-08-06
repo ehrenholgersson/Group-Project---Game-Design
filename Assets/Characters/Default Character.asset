@@ -16,20 +16,16 @@ MonoBehaviour:
   Health: 0
   Speed: 10
   Mass: 0
-  MovementAction: []
-  Action1:
-  - {fileID: 11400000, guid: 3650a237c1e3e0e42847dc51589bc103, type: 2}
-  - {fileID: 11400000, guid: 81c668168d88e7c44a2cde6065ecb2c8, type: 2}
-  - {fileID: 11400000, guid: 32136d04999db894b9d3224f35f2abcd, type: 2}
-  - {fileID: 11400000, guid: d4de28d6c61de504dbdac175c6303617, type: 2}
-  Action2:
+  MovementInput: []
+  Input1:
   - {fileID: 11400000, guid: 93385db8a95a23243b11383395827082, type: 2}
-  Action3:
-  - {fileID: 11400000, guid: cd7af32c34c29be4fb0dffca9fab0b29, type: 2}
-  - {fileID: 11400000, guid: dcee7557caeb87646a96eb65a58e848d, type: 2}
-  Action4:
+  Input2:
   - {fileID: 11400000, guid: 5e46fed80a464754cbd03def8102b33f, type: 2}
   - {fileID: 11400000, guid: bc1a6d75338d7a84c9b00b966b0d7474, type: 2}
-  Action5: []
-  Action6: []
+  Input3:
+  - {fileID: 11400000, guid: 93385db8a95a23243b11383395827082, type: 2}
+  Input4:
+  - {fileID: 11400000, guid: d4de28d6c61de504dbdac175c6303617, type: 2}
+  Input5: []
+  Input6: []
   DoubleJump: 1

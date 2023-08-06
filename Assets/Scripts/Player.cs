@@ -73,37 +73,37 @@ public class Player : MonoBehaviour, IDamage
     public void OnAction1(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Action1);
+            ProcessActions(_character.Input1);
     }
 
     public void OnAction2(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Action2);
+            ProcessActions(_character.Input2);
     }
 
     public void OnAction3(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Action3);
+            ProcessActions(_character.Input3);
     }
 
     public void OnAction4(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Action4);
+            ProcessActions(_character.Input4);
     }
 
     public void OnAction5(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Action5);
+            ProcessActions(_character.Input5);
     }
 
     public void OnAction6(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Action6);
+            ProcessActions(_character.Input6);
     }
 
     public void ProcessActions(List<Action> actions)
