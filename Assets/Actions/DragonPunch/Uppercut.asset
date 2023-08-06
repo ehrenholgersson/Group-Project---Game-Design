@@ -31,7 +31,7 @@ MonoBehaviour:
   - {x: 1.5, y: 0.8}
   - {x: 1.7, y: 1.6}
   - {x: 1.7, y: 1.6}
-  HitSize: 0.2
+  HitSize: 0.4
   ProjectilePrefab: {fileID: 0}
   ProjectileSpeed: 0
   ProjectileStart: {x: 0, y: 0}

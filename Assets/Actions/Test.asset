@@ -16,6 +16,7 @@ MonoBehaviour:
   Type: 0
   Damage: 0
   KnockBack: 0
+  KnockBackDirection: {x: 0, y: 0}
   AttackTime: 0
   StartDelay: 0
   EndDelay: 0
@@ -29,7 +30,7 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 0}
   ProjectileSpeed: 0
   ProjectileStart: {x: 0, y: 0}
-  Movement: 1
+  Movement: 0
   Force: {x: 0, y: 0}
   Destination: {x: 0, y: 0}
   Speed: 0
