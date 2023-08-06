@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a07d8d611380744297352a2872d7e9a, type: 3}
+  m_Name: shot 1
+  m_EditorClassIdentifier: 
+  Name: 
+  Type: 1
+  Damage: 0
+  KnockBack: 0
+  AttackTime: 0
+  StartDelay: 0.1
+  EndDelay: 0.25
+  Direction: 0
+  CustomDirection: {x: 0, y: 0}
+  Busy: 1
+  PlayerState: 2
+  MaxCombo: 0
+  HitPoints: []
+  HitSize: 0.2
+  ProjectilePrefab: {fileID: 7648330450298549304, guid: 9e9e540d8809a7749b85c862a189b99e, type: 3}
+  ProjectileSpeed: 20
+  ProjectileStart: {x: 0.8, y: 0}
+  Movement: 0
+  Force: {x: 0, y: 0}
+  Destination: {x: 0, y: 0}
+  Speed: 0
