@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Type: 0
-  Damage: 0
-  KnockBack: 0
+  Damage: 10
+  KnockBack: 50
+  KnockBackDirection: {x: 1, y: 0}
   AttackTime: 0.2
   StartDelay: 0
   EndDelay: 0
@@ -23,7 +24,7 @@ MonoBehaviour:
   CustomDirection: {x: 0, y: 0}
   Busy: 1
   PlayerState: 2
-  MaxCombo: 0
+  MaxCombo: 3
   HitPoints:
   - {x: 0.4, y: 0}
   - {x: 1, y: 0}

@@ -16,13 +16,15 @@ MonoBehaviour:
   Type: 0
   Damage: 0
   KnockBack: 0
+  KnockBackDirection: {x: 0, y: 0}
   AttackTime: 0.13
   StartDelay: 0
   EndDelay: 0.05
   Direction: 2
   CustomDirection: {x: 0, y: 0}
   Busy: 1
-  MaxCombo: 0
+  PlayerState: 2
+  MaxCombo: 10
   HitPoints:
   - {x: 0.4, y: 0}
   - {x: 1, y: 0}
