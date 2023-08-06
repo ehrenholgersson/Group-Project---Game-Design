@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
 {
     Rigidbody2D _rb;
     Vector2 _velocity;
-    //float _speed;
     float _damage;
     float _knockback;
     Vector2 _knockBackDirection;

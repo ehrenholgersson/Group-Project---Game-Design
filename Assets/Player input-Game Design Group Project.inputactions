@@ -321,6 +321,17 @@
                 },
                 {
                     "name": "",
+                    "id": "62ad0b1c-6655-4070-9235-dc90c7528cc8",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "aeb7303c-8387-4c63-b6b4-d73e7ecd2ea2",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
@@ -332,11 +343,33 @@
                 },
                 {
                     "name": "",
+                    "id": "6f3e7413-2dbe-46a5-b85a-1bd099623e64",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "01610291-bd3a-4aa6-91ce-b7133e4f271c",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Action6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbc1b6d7-8775-40e0-9093-f2db2a3b79aa",
+                    "path": "<Keyboard>/semicolon",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Action6",
                     "isComposite": false,
                     "isPartOfComposite": false

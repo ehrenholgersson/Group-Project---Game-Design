@@ -5,7 +5,7 @@ using UnityEngine;
 public class SceneControl : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         Application.targetFrameRate = 60;
     }

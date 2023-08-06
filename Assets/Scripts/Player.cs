@@ -117,7 +117,7 @@ public class Player : MonoBehaviour, IDamage
     {
         foreach (Action a in actions)
         {
-            if(a.PlayerState==Action.State.Both||(a.PlayerState == Action.State.Grounded&&_grounded)||(a.PlayerState == Action.State.Airborne&&!_grounded))
+            if (a.PlayerState == Action.State.Both || (a.PlayerState == Action.State.Grounded && _grounded) || (a.PlayerState == Action.State.Airborne && !_grounded))
                 switch (a.Type)
                 {
                     case Action.ActionType.Melee:
@@ -333,7 +333,7 @@ public class Player : MonoBehaviour, IDamage
         timer = Time.time;
         Vector2 direction = (destination - _rb.position).normalized;
         //        Vector2 setVelocity = _rb.position;
-        Debug.Log("dash started to " + destination);
+        Debug.Log("Move started to " + destination);
         while (Mathf.Abs((destination - _rb.position).magnitude) > 1f && (Time.time < timer + 2))
         {
             //if (direction.y < 0 && _grounded)
@@ -346,7 +346,7 @@ public class Player : MonoBehaviour, IDamage
             _rb.velocity = (destination - _rb.position).normalized * speed;
             await Task.Delay(25);
         }
-        Debug.Log("Dash complete");
+        Debug.Log("Move complete");
         _dashpower = 0;
         _rb.gravityScale = 1;
         _rb.velocity = direction * 8; // this should be based on some vale provided in args
