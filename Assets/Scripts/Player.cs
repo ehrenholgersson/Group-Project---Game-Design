@@ -17,10 +17,8 @@ public class Player : MonoBehaviour, IDamage
     bool _facingright = true;
     float _speed = 40;
     Vector2 _inputDirection;
-    float _dashpower;
-    bool _isBusy; // could use state machine/enum instead?
     int _busyJobs;
-    [SerializeField] GameObject _meleeBox; // yes, its a circle - need to change this to the gameobject or possibly MeleeHitBox
+    [SerializeField] GameObject _meleeBox;
     [SerializeField] Character _character;
 
     // Start is called before the first frame update
@@ -139,7 +137,7 @@ public class Player : MonoBehaviour, IDamage
                         switch (a.Movement)
                         {
                             case Action.MovementType.AddForce:
-                                MoveByAddForce(a.Force, a.StartDelay, a.EndDelay);
+                                MoveByAddForce(a.Force, a.StartDelay, a.EndDelay,a.Busy);
                                 break;
                             case Action.MovementType.Dodge:
                                 Dodge(a.AttackTime, a.StartDelay, a.EndDelay, a.Busy);
@@ -162,64 +160,10 @@ public class Player : MonoBehaviour, IDamage
                 Flip();
             if (_grounded)
             {
-                // using RigidBody2D.velocity so that rigisbody mass only effects knockback for easier management of charachter stat (speed = speed and mass = knockback amount without having any interplay between these)
+                // using RigidBody2D.velocity so that rigidbody mass only effects knockback for easier management of character stats (speed = speed and mass = knockback amount without having any interplay between the two)
                 _rb.velocity += new Vector2(_inputDirection.x * _speed * Time.deltaTime, 0);
             }
         }
-        #region Old Movement Code
-        // -- Old code, replacing with new Input system
-        //if(!(_busyJobs>0))
-        //{
-        //    if (_grounded)
-        //    {
-        //        if (Input.GetKeyDown(KeyCode.Space) && _rb.velocity.y < 10)
-        //        {
-        //            _rb.velocity += new Vector2(0, 8);
-
-        //        }
-        //        if (Input.GetKey(KeyCode.A) && _rb.velocity.x > -10)
-        //        {
-        //            _rb.velocity += new Vector2(-35, 0) * Time.deltaTime;
-        //        }
-        //        else if (Input.GetKey(KeyCode.D) && _rb.velocity.y < 10)
-        //        {
-        //            _rb.velocity += new Vector2(35, 0) * Time.deltaTime;
-        //        }
-        //    }
-        //    else if (_doubleJump)
-        //        if (Input.GetKeyDown(KeyCode.Space) && _rb.velocity.y < 10)
-        //        {
-        //            _rb.velocity += new Vector2(0, 8);
-
-        //            _doubleJump = false;
-        //        }
-        //    if (Input.GetKeyDown(KeyCode.LeftControl))
-        //    {
-        //        //_dashpower+=Time.deltaTime *200;
-        //        Dash(_rb.position + _rb.velocity.normalized * 10, 60);
-        //    }
-        //    /*else if (_dashpower > 0)
-        //    {
-        //        Dash();
-        //    }*/
-        //    if (Input.GetKeyDown(KeyCode.Tab))
-        //        //Melee(new List<Vector2> { new Vector2(0,0),new Vector2(1,0),new Vector2(1,1) }, 0.15f, 0.2f, 0.05f, 0.2f);
-        //        Shoot(Vector2.right, Vector2.right, 30, 0.1f, 0.3f, _projectile);
-        //    if(Input.GetKeyDown(KeyCode.F))
-        //    {
-        //        switch(_action[0].Type)
-        //        {
-        //            case Action.ActionType.Melee:
-        //                Melee(_action[0].HitPoints, _action[0].AttackTime, _action[0].HitSize, _action[0].StartDelay, _action[0].EndDelay);
-        //                break;
-        //            case Action.ActionType.Projectile:
-        //                Shoot(Vector2.right, Vector2.right, _action[0].ProjectileSpeed, _action[0].StartDelay, _action[0].EndDelay, _action[0].ProjectilePrefab);
-        //                break;
-        //        }
-        //    }
-        //        //Melee(new List<Vector2> { new Vector2(0,0),new Vector2(1,0),new Vector2(1,1) }, 0.4f, 0.2f, 0.2f, 0.1f);
-        //}
-        #endregion
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -251,7 +195,6 @@ public class Player : MonoBehaviour, IDamage
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
         //Attack
-        //hitBox.SetActive(true);
         GameObject hitBox = Instantiate(_meleeBox);
         if (hitBox.TryGetComponent<MeleeHitBox>(out MeleeHitBox m))
         {
@@ -278,7 +221,7 @@ public class Player : MonoBehaviour, IDamage
                     await Task.Delay(25);
                 }
         }
-        hitBox.SetActive(false);
+        hitBox.SetActive(false); // in case there is some delay in the destroy function
         Destroy(hitBox);
         // End Delay
         timer = Time.time;
@@ -314,7 +257,7 @@ public class Player : MonoBehaviour, IDamage
 
     #region Movement 
 
-    async void MovetoPoint(Vector2 destination, float speed, float startDelay, float endDelay,bool busy) // todo -- if player is moved by some other means the also move the destination so that they do not "snap" back in weird way, also this currently has a timeout of 2 seconds, could make this an action defined variable or could use distance to destination vs speed to come up with a more suitable value for this
+    async void MovetoPoint(Vector2 destination, float speed, float startDelay, float endDelay,bool busy) // todo -- if player is moved by some other means then also move the destination so that they do not "snap" back in weird way, also this currently has a timeout of 2 seconds, could make this an action defined variable but should use distance to destination vs speed to come up with a more suitable value
     {
         if (busy)
             _busyJobs++;
@@ -333,7 +276,6 @@ public class Player : MonoBehaviour, IDamage
             await Task.Delay(25);
         }
         Debug.Log("Move complete");
-        _dashpower = 0;
         _rb.gravityScale = 1;
         _rb.velocity = direction * 8; // this should be based on some vale provided in args
         timer = Time.time;
@@ -347,6 +289,7 @@ public class Player : MonoBehaviour, IDamage
     {
         if (busy)
             _busyJobs++;
+        //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
@@ -362,9 +305,10 @@ public class Player : MonoBehaviour, IDamage
             _busyJobs--;
     }
 
-    async void MoveByAddForce(Vector2 force, float startDelay, float endDelay)
+    async void MoveByAddForce(Vector2 force, float startDelay, float endDelay,bool busy)
     {
-        _busyJobs++;
+        if (busy)
+            _busyJobs++;
         //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
@@ -373,6 +317,8 @@ public class Player : MonoBehaviour, IDamage
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);
+        if (busy)
+            _busyJobs--;
 
     }
 
