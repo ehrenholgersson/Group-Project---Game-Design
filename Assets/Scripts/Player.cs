@@ -17,22 +17,17 @@ public class Player : MonoBehaviour, IDamage
     bool _facingright = true;
     float _speed = 40;
     Vector2 _inputDirection;
-    //Vector3 _force;
     float _dashpower;
     bool _isBusy; // could use state machine/enum instead?
     int _busyJobs;
     [SerializeField] GameObject _meleeBox; // yes, its a circle - need to change this to the gameobject or possibly MeleeHitBox
-    //[SerializeField] GameObject _hitBox;
     [SerializeField] Character _character;
-
-    //[SerializeField] Action[] _action = new Action[4];
 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
-        //_meleeBox = transform.GetComponentInChildren<CircleCollider2D>(true);
     }
 
     public void ApplyDamage(float damage)
@@ -121,22 +116,22 @@ public class Player : MonoBehaviour, IDamage
                 switch (a.Type)
                 {
                     case Action.ActionType.Melee:
-                        Melee(a.HitPoints, a.Damage, a.KnockBack,a.KnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
+                        Melee(a.HitPoints, a.Damage, a.KnockBack, a.KnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
                         break;
                     case Action.ActionType.Projectile:
                         switch (a.Direction)
                         {
                             case Action.DirectionType.InputDirection:
-                                Shoot(_inputDirection.normalized,a.Damage,a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
-                                Debug.Log("fire projectile in input direction");
+                                Shoot(_inputDirection.normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                //Debug.Log("fire projectile in input direction");
                                 break;
                             case Action.DirectionType.Custom:
                                 Shoot(new Vector2(a.CustomDirection.x * transform.localScale.x, a.CustomDirection.y).normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
-                                Debug.Log("Fire Projectile in Custom direction " + (a.CustomDirection.x * transform.localScale.x) + "," + a.CustomDirection.y);
+                                //Debug.Log("Fire Projectile in Custom direction " + (a.CustomDirection.x * transform.localScale.x) + "," + a.CustomDirection.y);
                                 break;
                             case Action.DirectionType.FacingDirection:
-                                Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack,a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
-                                Debug.Log("Fire Projectile in forward direction");
+                                Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                //Debug.Log("Fire Projectile in forward direction");
                                 break;
                         }
                         break;
@@ -171,7 +166,6 @@ public class Player : MonoBehaviour, IDamage
                 _rb.velocity += new Vector2(_inputDirection.x * _speed * Time.deltaTime, 0);
             }
         }
-
         #region Old Movement Code
         // -- Old code, replacing with new Input system
         //if(!(_busyJobs>0))
@@ -226,7 +220,6 @@ public class Player : MonoBehaviour, IDamage
         //        //Melee(new List<Vector2> { new Vector2(0,0),new Vector2(1,0),new Vector2(1,1) }, 0.4f, 0.2f, 0.2f, 0.1f);
         //}
         #endregion
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -336,13 +329,6 @@ public class Player : MonoBehaviour, IDamage
         Debug.Log("Move started to " + destination);
         while (Mathf.Abs((destination - _rb.position).magnitude) > 1f && (Time.time < timer + 2))
         {
-            //if (direction.y < 0 && _grounded)
-            //{
-            //    _busyJobs--;
-            //    _rb.gravityScale = 1;
-            //    return;
-            //}
-            //transform.position = Vector2.MoveTowards(transform.position, destination, speed * Time.deltaTime);
             _rb.velocity = (destination - _rb.position).normalized * speed;
             await Task.Delay(25);
         }
@@ -393,53 +379,4 @@ public class Player : MonoBehaviour, IDamage
     #endregion Movement 
 
     #endregion Action Functions/Methods
-
-    #region Unused Functions/Methods
-
-    //async void Dash(Vector2 destination,float speed) // currently has a timeout of 2 seconds, could make this an action defined variable or could use distance to destination vs speed to come up with a more suitable value for this
-    //{
-    //    _busyJobs++;
-    //    _rb.gravityScale = 0;
-    //    _rb.velocity = Vector2.zero;
-    //    float startTime = Time.time;
-    //    Vector2 direction = (destination - _rb.position).normalized;
-    //    Debug.Log("dash started to " + destination);
-    //    while (Mathf.Abs((destination - _rb.position).magnitude) > 1f&& (Time.time < startTime + 2))
-    //    {
-    //        if (direction.y < 0 && _grounded)
-    //        {
-    //            _busyJobs--;
-    //            _rb.gravityScale = 1;
-    //            return;
-    //        }
-    //        transform.position = Vector2.MoveTowards(transform.position, destination, speed * Time.deltaTime);
-    //        await Task.Delay(25);
-    //    }
-    //    Debug.Log("Dash complete");
-    //    _dashpower = 0;
-    //    _busyJobs--;
-    //    _rb.gravityScale = 1;
-    //    _rb.velocity = direction *8; // this should be based on some vale provided in args
-    //}
-
-    async void Dash()
-    {
-
-        _busyJobs++;
-        _rb.gravityScale = 0;
-        _rb.velocity = Vector2.zero;
-        Vector2 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log("dash started to " + destination);
-        while (Mathf.Abs((destination - _rb.position).magnitude) > 1f)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, destination, _dashpower * Time.deltaTime);
-            await Task.Delay(25);
-        }
-        Debug.Log("Dash complete");
-        _dashpower = 0;
-        _busyJobs--;
-        _rb.gravityScale = 1;
-
-    }
-    #endregion Unused Functions/Methods
 }
