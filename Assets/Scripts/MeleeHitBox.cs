@@ -29,7 +29,6 @@ public class MeleeHitBox : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("hit");
         if (collision.gameObject.tag.Contains("Character") && collision.gameObject != transform.parent.gameObject)
         {
             if (collision.gameObject.TryGetComponent<IDamage>(out IDamage target))

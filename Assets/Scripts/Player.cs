@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IDamage
         _inputDirection = value.Get<Vector2>();
     }
 
-    void flip()
+    void Flip()
     {
         _facingright = (!_facingright);
         transform.localScale = (new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
@@ -70,9 +70,10 @@ public class Player : MonoBehaviour, IDamage
     {
         if (_dashAvailable&& !(_busyJobs > 0))
             if (_inputDirection.magnitude > 0.1f)
-                MovetoPoint(_rb.position + _inputDirection * 4, 50,0,0,true);
+                MovetoPoint(_rb.position + _inputDirection * 3, 30,0,0,true);
             else
-                MovetoPoint(_rb.position + new Vector2(transform.localScale.x * 4, 0), 50,0,0,true);
+                MovetoPoint(_rb.position + new Vector2(transform.localScale.x * 4, 0), 30,0,0,true);
+        Dodge(0.5f, 0f, 0f, false);
         _dashAvailable = false;
     }
 
@@ -126,15 +127,15 @@ public class Player : MonoBehaviour, IDamage
                         switch (a.Direction)
                         {
                             case Action.DirectionType.InputDirection:
-                                Shoot(_inputDirection.normalized, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                Shoot(_inputDirection.normalized,a.Damage,a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 Debug.Log("fire projectile in input direction");
                                 break;
                             case Action.DirectionType.Custom:
-                                Shoot(new Vector2(a.CustomDirection.x * transform.localScale.x, a.CustomDirection.y).normalized, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                Shoot(new Vector2(a.CustomDirection.x * transform.localScale.x, a.CustomDirection.y).normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 Debug.Log("Fire Projectile in Custom direction " + (a.CustomDirection.x * transform.localScale.x) + "," + a.CustomDirection.y);
                                 break;
                             case Action.DirectionType.FacingDirection:
-                                Shoot(new Vector2(transform.localScale.x, 0), new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack,a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 Debug.Log("Fire Projectile in forward direction");
                                 break;
                         }
@@ -163,7 +164,7 @@ public class Player : MonoBehaviour, IDamage
         if(!(_busyJobs>0))
         {
             if ((_inputDirection.x < 0 && _facingright) || (_inputDirection.x > 0 && !_facingright))
-                flip();
+                Flip();
             if (_grounded)
             {
                 // using RigidBody2D.velocity so that rigisbody mass only effects knockback for easier management of charachter stat (speed = speed and mass = knockback amount without having any interplay between these)
@@ -294,7 +295,7 @@ public class Player : MonoBehaviour, IDamage
             _busyJobs--;
     }
 
-    async void Shoot(Vector2 direction, Vector2 startPoint, float speed, float startDelay, float EndDelay, GameObject prefab,bool busy)
+    async void Shoot(Vector2 direction, float damage, float knockback, Vector2 knockBackDirection, Vector2 startPoint, float speed, float startDelay, float EndDelay, GameObject prefab,bool busy)
     {
         if (busy)
             _busyJobs++;
@@ -307,7 +308,7 @@ public class Player : MonoBehaviour, IDamage
         gameO.transform.position = _rb.position + startPoint;
         if (gameO.TryGetComponent<Projectile>(out Projectile projectile))
         {
-            projectile.setup(direction, speed);
+            projectile.setup(direction, speed,damage,knockback, new Vector2(knockBackDirection.x * transform.localScale.x, knockBackDirection.y),1f,gameObject);
         }
 
         // End Delay
@@ -367,6 +368,7 @@ public class Player : MonoBehaviour, IDamage
         timer = Time.time;
         while (Time.time < timer + attackTime)
             await Task.Delay(25);
+        gameObject.layer = 3;
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2630532307040846152}
   - component: {fileID: 2630532307040846153}
   - component: {fileID: 2630532307040846158}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MeleeHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,3 +118,4 @@ MonoBehaviour:
   ComboCount: 0
   Damage: 0
   KnockBack: 0
+  KnockBackDirection: {x: 0, y: 0}
