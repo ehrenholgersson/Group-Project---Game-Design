@@ -82,7 +82,7 @@ public class Player : MonoBehaviour, IDamage
             ProcessActions(_character.Input2);
     }
 
-    public void OnAction3(InputValue value)
+    public void OnAction3(InputValue value) // this seems to not work but I can't see why?
     {
         if (!(_busyJobs > 0))
             ProcessActions(_character.Input3);
@@ -120,7 +120,10 @@ public class Player : MonoBehaviour, IDamage
                         switch (a.Direction)
                         {
                             case Action.DirectionType.InputDirection:
-                                Shoot(_inputDirection.normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                if (_inputDirection.normalized.magnitude < 0.2f) // shoot forward if input is 0
+                                    Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                else
+                                    Shoot(_inputDirection.normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 //Debug.Log("fire projectile in input direction");
                                 break;
                             case Action.DirectionType.Custom:

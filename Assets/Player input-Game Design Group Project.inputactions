@@ -292,7 +292,7 @@
                     "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "",
                     "action": "Action3",
                     "isComposite": false,
                     "isPartOfComposite": false

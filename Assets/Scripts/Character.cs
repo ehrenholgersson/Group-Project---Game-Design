@@ -5,7 +5,7 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public string Name;
-    public float Health;
+    public float Health = 100;
     public float Speed;
     public float Mass;
     public List<Action> MovementInput;
@@ -15,5 +15,5 @@ public class Character : ScriptableObject
     public List<Action> Input4;
     public List<Action> Input5;
     public List<Action> Input6;
-    public bool DoubleJump;
+    public bool DoubleJump = true;
 }

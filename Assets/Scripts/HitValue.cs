@@ -15,7 +15,7 @@ public class HitValue : MonoBehaviour
     {
         _text = transform.GetComponentInChildren<Text>();
         _timer = Time.time;
-        _direction = new Vector3(Random.Range(-0.4f, 0.4f),1,0);
+        _direction = new Vector3(Random.Range(-0.4f, 0.4f),1,0).normalized;
     }
 
     // Update is called once per frame

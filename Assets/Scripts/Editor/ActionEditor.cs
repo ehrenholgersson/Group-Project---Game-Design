@@ -79,9 +79,9 @@ public class ActionEditor : Editor
                 EditorGUILayout.PropertyField(MaxCombo);
                 EditorGUILayout.PropertyField(HitPoints);
                 EditorGUILayout.PropertyField(AttackTime);
-                EditorGUILayout.PropertyField(HitSize);
                 EditorGUILayout.PropertyField(StartDelay);
                 EditorGUILayout.PropertyField(EndDelay);
+                EditorGUILayout.PropertyField(HitSize);
                 break;
             case "Projectile":
                 EditorGUILayout.PropertyField(Damage);
@@ -99,7 +99,7 @@ public class ActionEditor : Editor
                 break;
             case "Movement":
                 EditorGUILayout.PropertyField(StartDelay);
-                EditorGUILayout.PropertyField(AttackTime);
+                
                 EditorGUILayout.PropertyField(EndDelay);
                 EditorGUILayout.PropertyField(Movement);
                 switch(Movement.enumNames[Movement.intValue])
@@ -110,6 +110,9 @@ public class ActionEditor : Editor
                     case "MoveToPoint":
                         EditorGUILayout.PropertyField(Destination);
                         EditorGUILayout.PropertyField(Speed);
+                        break;
+                    case "Dodge":
+                        EditorGUILayout.PropertyField(AttackTime);
                         break;
                 }
 
