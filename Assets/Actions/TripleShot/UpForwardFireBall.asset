@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Type: 1
-  Damage: 0
-  KnockBack: 0
-  KnockBackDirection: {x: 0, y: 0}
+  Damage: 5
+  KnockBack: 45
+  KnockBackDirection: {x: 1, y: 0}
   AttackTime: 0
   StartDelay: 0
   EndDelay: 0.4

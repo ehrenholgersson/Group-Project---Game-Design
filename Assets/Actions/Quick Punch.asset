@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: 
   Type: 0
   Damage: 5
-  KnockBack: 40
+  KnockBack: 20
   KnockBackDirection: {x: 1, y: 0}
   AttackTime: 0.13
   StartDelay: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
   CustomDirection: {x: 0, y: 0}
   Busy: 1
   PlayerState: 2
-  MaxCombo: 10
+  MaxCombo: 1
   HitPoints:
   - {x: 0.4, y: 0}
   - {x: 1, y: 0}

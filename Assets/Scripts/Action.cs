@@ -16,7 +16,7 @@ public class Action : ScriptableObject
     public ActionType Type;
     public float Damage;
     public float KnockBack;
-    public Vector2 KnockBackDirection;
+    public Vector2 KnockBackDirection = Vector2.right;
     public float AttackTime;
     public float StartDelay;
     public float EndDelay;
