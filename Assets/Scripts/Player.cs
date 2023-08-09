@@ -1,11 +1,9 @@
-
 using System.Collections.Generic;
-
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// currently multiplying things by transform.localscal.x to change facing direction,this works but could cause problems later
+// currently multiplying things by transform.localscale.x to change facing direction,this works but could cause problems later
 
 public class Player : MonoBehaviour, IDamage
 {
@@ -28,20 +26,71 @@ public class Player : MonoBehaviour, IDamage
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (!(_busyJobs > 0))
+        {
+            if ((_inputDirection.x < 0 && _facingright) || (_inputDirection.x > 0 && !_facingright))
+                Flip();
+            if (_grounded)
+            {
+                // using RigidBody2D.velocity so that rigidbody mass only effects knockback for easier management of character stats (speed = speed and mass = knockback amount without having any interplay between the two)
+                _rb.velocity += new Vector2(_inputDirection.x * _speed * Time.deltaTime, 0);
+            }
+            if (_jump)
+            {
+                if (_grounded)
+                    _rb.velocity += new Vector2(0, 12);
+                else if (_doubleJump)
+                    if (_rb.velocity.y < 30) // why dis? I don't remember, may remove
+                    {
+                        _rb.velocity += new Vector2(0, 12);
+
+                        _doubleJump = false;
+                    }
+                _jump = false;
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer != 6)
+        {
+            _grounded = true;
+            if (_character.DoubleJump)
+                _doubleJump = true;
+            _dashAvailable = true;
+            _rb.drag = 3;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)// kinda redundant doing this for trigger and collision exit - but it seems to catch some edge cases
+    {
+        _grounded = false;
+        _rb.drag = 0.2f;
+    }
+    private void OnTriggerExit2D(Collider2D collision) // kinda redundant doing this for trigger and collision exit - but it seems to catch some edge cases
+    {
+        _grounded = false;
+        _rb.drag = 0.2f;
+    }
+
     public void ApplyDamage(float damage)
     {
         Debug.Log(gameObject.name + " is hit for " + damage + " damage.");
-    }
-
-    public void OnMove(InputValue value)
-    { 
-        _inputDirection = value.Get<Vector2>();
     }
 
     void Flip()
     {
         _facingright = (!_facingright);
         transform.localScale = (new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
+    }
+
+    #region Inputs
+    public void OnMove(InputValue value)
+    {
+        _inputDirection = value.Get<Vector2>();
     }
     public void OnJump(InputValue value)
     {
@@ -72,7 +121,7 @@ public class Player : MonoBehaviour, IDamage
             ProcessActions(_character.Input2);
     }
 
-    public void OnAction3(InputValue value) // this seems to not work but I can't see why?
+    public void OnAction3(InputValue value) 
     {
         if (!(_busyJobs > 0))
             ProcessActions(_character.Input3);
@@ -95,6 +144,8 @@ public class Player : MonoBehaviour, IDamage
         if (!(_busyJobs > 0))
             ProcessActions(_character.Input6);
     }
+
+    # endregion Inputs
 
     public void ProcessActions(List<Action> actions)
     {
@@ -142,67 +193,6 @@ public class Player : MonoBehaviour, IDamage
                         break;
                 }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(!(_busyJobs>0))
-        {
-            if ((_inputDirection.x < 0 && _facingright) || (_inputDirection.x > 0 && !_facingright))
-                Flip();
-            if (_grounded)
-            {
-                // using RigidBody2D.velocity so that rigidbody mass only effects knockback for easier management of character stats (speed = speed and mass = knockback amount without having any interplay between the two)
-                _rb.velocity += new Vector2(_inputDirection.x * _speed * Time.deltaTime, 0);
-            }
-            if (_jump)
-            {
-                if (_grounded)
-                    _rb.velocity += new Vector2(0, 12);
-                else if (_doubleJump)
-                    if (_rb.velocity.y < 30) // why dis? I don't remember, may remove
-                    {
-                        _rb.velocity += new Vector2(0, 12);
-
-                        _doubleJump = false;
-                    }
-                _jump = false;
-            }
-        }
-    }
-
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.layer != 6)
-    //    {
-    //        _grounded = true;
-    //        if (_character.DoubleJump)
-    //            _doubleJump = true;
-    //        _dashAvailable = true;
-    //        _rb.drag = 3;
-    //    }
-    //}
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer != 6)
-        {
-            _grounded = true;
-            if (_character.DoubleJump)
-                _doubleJump = true;
-            _dashAvailable = true;
-            _rb.drag = 3;
-        }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        _grounded = false;
-        _rb.drag = 0.2f;
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _grounded = false;
-        _rb.drag = 0.2f;
     }
 
     #region Action Functions/Methods
