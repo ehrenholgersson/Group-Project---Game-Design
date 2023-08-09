@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDamage
     bool _doubleJump = false;
     bool _dashAvailable = false;
     bool _facingright = true;
+    bool _jump;
     float _speed = 40;
     Vector2 _inputDirection;
     int _busyJobs;
@@ -44,18 +45,8 @@ public class Player : MonoBehaviour, IDamage
     }
     public void OnJump(InputValue value)
     {
-        if(!(_busyJobs>0))
-        {
-            if (_grounded)
-                _rb.velocity += new Vector2(0, 12);
-            else if (_doubleJump)
-                if (_rb.velocity.y < 30) // why dis? I don't remember, may remove
-                {
-                    _rb.velocity += new Vector2(0, 12);
-
-                    _doubleJump = false;
-                }
-        }
+        _jump = true;
+       
     }
 
     public void OnMoveAction(InputValue value)
@@ -65,7 +56,7 @@ public class Player : MonoBehaviour, IDamage
                 MovetoPoint(_inputDirection * 4, 0.1f,0,0,true);
             else
                 MovetoPoint(new Vector2(transform.localScale.x * 4, 0), 0.1f,0,0,true);
-        Dodge(0.5f, 0f, 0f, false);
+        Dodge(0.2f, 0f, 0f, false);
         _dashAvailable = false;
     }
 
@@ -165,6 +156,19 @@ public class Player : MonoBehaviour, IDamage
                 // using RigidBody2D.velocity so that rigidbody mass only effects knockback for easier management of character stats (speed = speed and mass = knockback amount without having any interplay between the two)
                 _rb.velocity += new Vector2(_inputDirection.x * _speed * Time.deltaTime, 0);
             }
+            if (_jump)
+            {
+                if (_grounded)
+                    _rb.velocity += new Vector2(0, 12);
+                else if (_doubleJump)
+                    if (_rb.velocity.y < 30) // why dis? I don't remember, may remove
+                    {
+                        _rb.velocity += new Vector2(0, 12);
+
+                        _doubleJump = false;
+                    }
+                _jump = false;
+            }
         }
     }
 
@@ -191,6 +195,11 @@ public class Player : MonoBehaviour, IDamage
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
+    {
+        _grounded = false;
+        _rb.drag = 0.2f;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
     {
         _grounded = false;
         _rb.drag = 0.2f;
@@ -292,7 +301,7 @@ public class Player : MonoBehaviour, IDamage
         }
         //Debug.Log("Move complete at "+_rb.position);
         _rb.gravityScale = 1;
-        _rb.velocity = direction * (speed/2); // this should be based on some vale provided in args
+        _rb.velocity = direction * (speed/4); // this should be based on some vale provided in args
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);
