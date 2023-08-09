@@ -72,6 +72,7 @@ public class Player : MonoBehaviour, IDamage
     }
     private void OnTriggerExit2D(Collider2D collision) // kinda redundant doing this for trigger and collision exit - but it seems to catch some edge cases
     {
+        Debug.Log("Trigger Exit");
         _grounded = false;
         _rb.drag = 0.2f;
     }
@@ -235,6 +236,10 @@ public class Player : MonoBehaviour, IDamage
         }
         hitBox.SetActive(false); // in case there is some delay in the destroy function
         Destroy(hitBox);
+        // hitbox trigger was causing player to be incorrectly in grounded state, there is probably a better solution than this but it works
+        _grounded = false;
+        _rb.drag = 0.2f;
+
         // End Delay
         timer = Time.time;
         while (Time.time < timer + EndDelay)
