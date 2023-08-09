@@ -1,7 +1,6 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Threading;
+
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -63,9 +62,9 @@ public class Player : MonoBehaviour, IDamage
     {
         if (_dashAvailable&& !(_busyJobs > 0))
             if (_inputDirection.magnitude > 0.1f)
-                MovetoPoint(_rb.position + _inputDirection * 3, 30,0,0,true);
+                MovetoPoint(_inputDirection * 4, 0.1f,0,0,true);
             else
-                MovetoPoint(_rb.position + new Vector2(transform.localScale.x * 4, 0), 30,0,0,true);
+                MovetoPoint(new Vector2(transform.localScale.x * 4, 0), 0.1f,0,0,true);
         Dodge(0.5f, 0f, 0f, false);
         _dashAvailable = false;
     }
@@ -146,7 +145,7 @@ public class Player : MonoBehaviour, IDamage
                                 Dodge(a.AttackTime, a.StartDelay, a.EndDelay, a.Busy);
                                 break;
                             case Action.MovementType.MoveToPoint:
-                                MovetoPoint(_rb.position + new Vector2(a.Destination.x * transform.localScale.x, a.Destination.y), a.Speed, a.StartDelay, a.EndDelay, a.Busy);
+                                MovetoPoint(new Vector2(a.Destination.x * transform.localScale.x, a.Destination.y), a.AttackTime, a.StartDelay, a.EndDelay, a.Busy);
                                 break;
                         }
                         break;
@@ -169,7 +168,18 @@ public class Player : MonoBehaviour, IDamage
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.layer != 6)
+    //    {
+    //        _grounded = true;
+    //        if (_character.DoubleJump)
+    //            _doubleJump = true;
+    //        _dashAvailable = true;
+    //        _rb.drag = 3;
+    //    }
+    //}
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.layer != 6)
         {
@@ -260,27 +270,29 @@ public class Player : MonoBehaviour, IDamage
 
     #region Movement 
 
-    async void MovetoPoint(Vector2 destination, float speed, float startDelay, float endDelay,bool busy) // todo -- if player is moved by some other means then also move the destination so that they do not "snap" back in weird way, also this currently has a timeout of 2 seconds, could make this an action defined variable but should use distance to destination vs speed to come up with a more suitable value
+    async void MovetoPoint(Vector2 destination, float attackTime, float startDelay, float endDelay,bool busy) // todo -- if player is moved by some other means then also move the destination so that they do not "snap" back in weird way, also this currently has a timeout of 2 seconds, could make this an action defined variable but should use distance to destination vs speed to come up with a more suitable value
     {
         if (busy)
             _busyJobs++;
+        float speed = destination.magnitude/attackTime;
         _rb.gravityScale = 0;
         _rb.velocity = Vector2.zero;
         float timer = Time.time;
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
         timer = Time.time;
-        Vector2 direction = (destination - _rb.position).normalized;
+        Vector2 direction = (destination).normalized;
         //        Vector2 setVelocity = _rb.position;
-        Debug.Log("Move started to " + destination);
-        while (Mathf.Abs((destination - _rb.position).magnitude) > 1f && (Time.time < timer + 2))
+        //Debug.Log("Move started to " + destination + "at "+_rb.position);
+        Debug.Log("speed is " + speed);
+        while (Time.time < timer + attackTime)//(Mathf.Abs((destination - _rb.position).magnitude) > 1f && (Time.time < timer + 2))
         {
-            _rb.velocity = (destination - _rb.position).normalized * speed;
+            _rb.velocity = direction * speed;//(destination - _rb.position).normalized * speed;
             await Task.Delay(25);
         }
-        Debug.Log("Move complete");
+        //Debug.Log("Move complete at "+_rb.position);
         _rb.gravityScale = 1;
-        _rb.velocity = direction * 8; // this should be based on some vale provided in args
+        _rb.velocity = direction * (speed/2); // this should be based on some vale provided in args
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);

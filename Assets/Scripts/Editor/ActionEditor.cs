@@ -109,7 +109,7 @@ public class ActionEditor : Editor
                         break;
                     case "MoveToPoint":
                         EditorGUILayout.PropertyField(Destination);
-                        EditorGUILayout.PropertyField(Speed);
+                        EditorGUILayout.PropertyField(AttackTime);
                         break;
                     case "Dodge":
                         EditorGUILayout.PropertyField(AttackTime);
