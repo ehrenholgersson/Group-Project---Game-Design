@@ -53,9 +53,9 @@ public class Player : MonoBehaviour, IDamage
     {
         if (_dashAvailable&& !(_busyJobs > 0))
             if (_inputDirection.magnitude > 0.1f)
-                MovetoPoint(_inputDirection * 4, 0.1f,0,0,true);
+                MovetoPoint(_inputDirection * 3, 0.1f,0,0,true);
             else
-                MovetoPoint(new Vector2(transform.localScale.x * 4, 0), 0.1f,0,0,true);
+                MovetoPoint(new Vector2(transform.localScale.x * 3, 0), 0.1f,0,0,true);
         Dodge(0.2f, 0f, 0f, false);
         _dashAvailable = false;
     }
