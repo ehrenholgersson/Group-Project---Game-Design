@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -92,6 +93,12 @@ public class Player : MonoBehaviour, IDamage
     public void OnMove(InputValue value)
     {
         _inputDirection = value.Get<Vector2>();
+        // constrain to 8 directions
+        if (MathF.Abs(_inputDirection.x) > 0.2f && MathF.Abs(_inputDirection.y) > 0.2f)
+            _inputDirection = new Vector2(0.5f * (MathF.Abs(_inputDirection.x) / _inputDirection.x), 0.5f * (MathF.Abs(_inputDirection.y) / _inputDirection.y)) * _inputDirection.magnitude;
+        else if (MathF.Abs(_inputDirection.x) > MathF.Abs(_inputDirection.y))
+            _inputDirection = new Vector2(_inputDirection.x, 0);
+        else _inputDirection = new Vector2(0,_inputDirection.y);
     }
     public void OnJump(InputValue value)
     {
