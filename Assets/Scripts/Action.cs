@@ -5,11 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Action", menuName = "ProductiveBludgers/Action")]
 public class Action : ScriptableObject
 {
+    #region Enumerators
     public enum ActionType {Melee,Projectile,Movement,Animation}
     public enum DirectionType { FacingDirection, InputDirection, Custom }
     public enum MovementType { AddForce, MoveToPoint, Dodge }
-
     public enum State { Airborne, Grounded, Both}
+    #endregion 
 
     #region General Values
     public string Name;

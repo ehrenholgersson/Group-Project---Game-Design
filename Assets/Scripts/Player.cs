@@ -84,7 +84,6 @@ public class Player : MonoBehaviour, IDamage
     }
     private void OnTriggerExit2D(Collider2D collision) // kinda redundant doing this for trigger and collision exit - but it seems to catch some edge cases
     {
-        Debug.Log("Trigger Exit");
         _grounded = false;
         _rb.drag = 0.2f;
     }
