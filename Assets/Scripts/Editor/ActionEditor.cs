@@ -34,6 +34,7 @@ public class ActionEditor : Editor
     SerializedProperty KnockBackDirection;
 
     SerializedProperty PlayerState;
+    SerializedProperty AnimationName;
 
     private void OnEnable()
     {
@@ -55,6 +56,8 @@ public class ActionEditor : Editor
         KnockBack = serializedObject.FindProperty("KnockBack");
         KnockBackDirection = serializedObject.FindProperty("KnockBackDirection");
 
+        AnimationName = serializedObject.FindProperty("AnimationName");
+
         Movement = serializedObject.FindProperty("Movement");
         Force = serializedObject.FindProperty("Force");
         Destination = serializedObject.FindProperty("Destination");
@@ -67,7 +70,10 @@ public class ActionEditor : Editor
     {
         serializedObject.Update();
         EditorGUILayout.PropertyField(Name);
-        EditorGUILayout.PropertyField(Busy);
+        if (Type.enumNames[Type.intValue] != "Animation")
+        {
+            EditorGUILayout.PropertyField(Busy);
+        }
         EditorGUILayout.PropertyField(PlayerState);
         EditorGUILayout.PropertyField(Type);
         switch (Type.enumNames[Type.intValue])
@@ -115,7 +121,10 @@ public class ActionEditor : Editor
                         EditorGUILayout.PropertyField(AttackTime);
                         break;
                 }
-
+                break;
+            case "Animation":
+                EditorGUILayout.PropertyField(AnimationName);
+                EditorGUILayout.PropertyField(AttackTime);
                 break;
 
         }

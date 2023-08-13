@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Action", menuName = "ProductiveBludgers/Action")]
 public class Action : ScriptableObject
 {
-    public enum ActionType {Melee,Projectile,Movement}
+    public enum ActionType {Melee,Projectile,Movement,Animation}
     public enum DirectionType { FacingDirection, InputDirection, Custom }
     public enum MovementType { AddForce, MoveToPoint, Dodge }
 
@@ -46,4 +46,7 @@ public class Action : ScriptableObject
 
     #endregion
 
+    #region Animation Specific Values
+    public string AnimationName;
+    #endregion
 }

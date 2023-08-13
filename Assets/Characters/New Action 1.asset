@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Type: 0
-  Damage: 0
-  KnockBack: 0
-  KnockBackDirection: {x: 1, y: 0}
-  AttackTime: 0
-  StartDelay: 0
-  EndDelay: 0
+  Damage: 20
+  KnockBack: 700
+  KnockBackDirection: {x: 1, y: 0.15}
+  AttackTime: 1
+  StartDelay: 0.2
+  EndDelay: 0.2
   Direction: 0
   CustomDirection: {x: 0, y: 0}
   Busy: 1
   PlayerState: 2
-  MaxCombo: 0
-  HitPoints: []
-  HitSize: 0.2
+  MaxCombo: 5
+  HitPoints:
+  - {x: 0, y: 0}
+  HitSize: 2
   ProjectilePrefab: {fileID: 0}
   ProjectileSpeed: 0
   ProjectileStart: {x: 0, y: 0}

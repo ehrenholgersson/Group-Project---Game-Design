@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20be8f8c8ee0d842bfb994e4a95798f, type: 3}
+  m_Name: RyuTest
+  m_EditorClassIdentifier: 
+  Name: 
+  Health: 100
+  Speed: 0
+  Mass: 0
+  MovementInput: []
+  Input1:
+  - {fileID: 11400000, guid: af02d29b25682a04eb9aad8cf0a4d305, type: 2}
+  - {fileID: 11400000, guid: 0336b144ae13ac84b8af7de0e88685b0, type: 2}
+  Input2:
+  - {fileID: 11400000, guid: af02d29b25682a04eb9aad8cf0a4d305, type: 2}
+  - {fileID: 11400000, guid: 0336b144ae13ac84b8af7de0e88685b0, type: 2}
+  Input3:
+  - {fileID: 11400000, guid: 5e46fed80a464754cbd03def8102b33f, type: 2}
+  Input4:
+  - {fileID: 11400000, guid: af02d29b25682a04eb9aad8cf0a4d305, type: 2}
+  Input5: []
+  Input6: []
+  DoubleJump: 1

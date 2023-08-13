@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -19,10 +20,12 @@ public class Player : MonoBehaviour, IDamage
     int _busyJobs;
     [SerializeField] GameObject _meleeBox;
     [SerializeField] Character _character;
+    Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        _animator = GetComponent<Animator>();
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour, IDamage
     {
         if (!(_busyJobs > 0))
         {
+            //_animator.SetInteger("Attack", 0);
             if ((_inputDirection.x < 0 && _facingright) || (_inputDirection.x > 0 && !_facingright))
                 Flip();
             if (_grounded)
@@ -52,6 +56,12 @@ public class Player : MonoBehaviour, IDamage
                     }
                 _jump = false;
             }
+        }
+        if (_animator!=null)
+        {
+            _animator.SetFloat("XSpeed", _rb.velocity.x*transform.localScale.x);
+            _animator.SetFloat("YSpeed", _rb.velocity.y);
+            _animator.SetBool("Grounded", _grounded);
         }
     }
 
@@ -162,6 +172,9 @@ public class Player : MonoBehaviour, IDamage
             if (a.PlayerState == Action.State.Both || (a.PlayerState == Action.State.Grounded && _grounded) || (a.PlayerState == Action.State.Airborne && !_grounded))
                 switch (a.Type)
                 {
+                    case Action.ActionType.Animation:
+                        StartCoroutine(Animate(a.AnimationName, a.AttackTime));
+                        break;
                     case Action.ActionType.Melee:
                         Melee(a.HitPoints, a.Damage, a.KnockBack, a.KnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
                         break;
@@ -201,6 +214,7 @@ public class Player : MonoBehaviour, IDamage
                         break;
                 }
         }
+        
     }
 
     #region Action Functions/Methods
@@ -277,6 +291,17 @@ public class Player : MonoBehaviour, IDamage
             await Task.Delay(25);
         if (busy)
             _busyJobs--;
+    }
+
+    IEnumerator Animate(String name, float time)
+    {
+        if (_animator != null)
+            _animator.Play(name);
+
+        yield return new WaitForSeconds(time);
+
+        if (_animator != null)
+            _animator.Play("Idle");
     }
 
     #region Movement 
