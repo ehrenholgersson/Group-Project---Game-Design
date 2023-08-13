@@ -200,7 +200,7 @@
                 },
                 {
                     "name": "2D Vector",
-                    "id": "016b7d75-06d4-4658-bcda-9c168e4f434d",
+                    "id": "44f2f3a2-a75c-4860-a65a-683f9779023c",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -211,7 +211,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "13378cda-8d14-4b5f-9acd-705cc5246485",
+                    "id": "ba9c318c-c52a-4626-a8f2-4a0c4a4f4048",
                     "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
@@ -222,7 +222,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "387e0c79-6c6b-4e49-a799-a1706812ce23",
+                    "id": "aa72078a-21b4-4d7a-a93a-4ee4a99e07a6",
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
@@ -233,7 +233,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "0d677182-afb1-452b-8a37-497402084ccf",
+                    "id": "250eafbf-13b4-42be-b167-1293541cbb22",
                     "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
@@ -244,7 +244,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "7c8ab7d5-2c41-41ab-9141-beaeb360806a",
+                    "id": "1f5c5d21-e6a1-4345-9a84-37fa2cd7df97",
                     "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
