@@ -16,6 +16,7 @@ MonoBehaviour:
   Health: 100
   Speed: 0
   Mass: 0
+  Appearance: {fileID: 2332116653832670893, guid: 6b1b4846a5b9a7b4aa835980692f40f8, type: 3}
   MovementInput: []
   Input1:
   - {fileID: 11400000, guid: af02d29b25682a04eb9aad8cf0a4d305, type: 2}

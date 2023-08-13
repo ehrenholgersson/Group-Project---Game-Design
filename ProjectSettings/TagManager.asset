@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Player_Character
   - Character
+  - Skin
   layers:
   - Default
   - TransparentFX

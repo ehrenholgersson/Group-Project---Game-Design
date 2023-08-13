@@ -25,7 +25,8 @@ public class Player : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponent<Animator>();
+        //_animator = GetComponent<Animator>();
+        SetupCharacter();
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -114,6 +115,23 @@ public class Player : MonoBehaviour, IDamage
     {
         _jump = true;
        
+    }
+
+    public void SetupCharacter()
+    {
+        if (_character != null && _character.Appearance != null)
+        {
+            foreach (Transform t in GetComponentsInChildren<Transform>())
+            {
+
+                if (t.tag == "Skin")
+                    Destroy(t.gameObject);
+            }
+            GameObject gO = Instantiate(_character.Appearance);
+            gO.transform.position = transform.position;
+            gO.transform.SetParent(transform, true);
+            _animator = gO.GetComponent<Animator>();
+        }
     }
 
     public void OnMoveAction(InputValue value)

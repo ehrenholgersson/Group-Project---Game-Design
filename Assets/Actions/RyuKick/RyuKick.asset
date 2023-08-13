@@ -23,7 +23,7 @@ MonoBehaviour:
   Direction: 0
   CustomDirection: {x: 0, y: 0}
   Busy: 1
-  PlayerState: 2
+  PlayerState: 1
   MaxCombo: 0
   HitPoints:
   - {x: 1.5, y: 0.7}
