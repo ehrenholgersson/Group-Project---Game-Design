@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 // currently multiplying things by transform.localscale.x to change facing direction,this works but could cause problems later
 
@@ -16,10 +17,13 @@ public class Player : MonoBehaviour, IDamage
     bool _facingright = true;
     bool _jump;
     float _speed = 40;
+    public float Health {get; private set;}
     Vector2 _inputDirection;
     int _busyJobs;
     [SerializeField] GameObject _meleeBox;
     [SerializeField] Character _character;
+    Image _healthbar;
+    public int PlayerNumber { get; private set;}
     Animator _animator;
 
     // Start is called before the first frame update
@@ -29,6 +33,15 @@ public class Player : MonoBehaviour, IDamage
         SetupCharacter();
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
+        if (_character != null)
+        {
+            _speed = _character.Speed;
+            _rb.mass = _character.Mass;
+            Health = _character.Health;
+        }
+        PlayerNumber = GetComponent<PlayerInput>().playerIndex;
+        PlayerUI.Player[PlayerNumber].SetActive(true);
+        _healthbar = PlayerUI.Player[PlayerNumber].GetComponentInChildren<Image>();
     }
 
     // Update is called once per frame
@@ -90,7 +103,9 @@ public class Player : MonoBehaviour, IDamage
 
     public void ApplyDamage(float damage)
     {
+        Health -= damage;
         Debug.Log(gameObject.name + " is hit for " + damage + " damage.");
+        _healthbar.fillAmount = Health/_character.Health;
     }
 
     void Flip()
@@ -129,7 +144,7 @@ public class Player : MonoBehaviour, IDamage
             GameObject gO = Instantiate(_character.Appearance);
             gO.transform.position = transform.position;
             gO.transform.SetParent(transform, true);
-            _animator = gO.GetComponent<Animator>();
+            _animator = gO.GetComponentInChildren<Animator>();
         }
     }
 

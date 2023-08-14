@@ -6,8 +6,8 @@ public class Character : ScriptableObject
 {
     public string Name;
     public float Health = 100;
-    public float Speed;
-    public float Mass;
+    public float Speed = 40;
+    public float Mass = 1;
     public GameObject Appearance;
     public List<Action> MovementInput;
     public List<Action> Input1;
