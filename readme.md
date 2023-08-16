@@ -1,6 +1,6 @@
 # Productive Bludgers Game Design Group Project
 
-## How to Download and add as new Unity Project
+## How to download and add as new Unity Project
 
 <ol>
 

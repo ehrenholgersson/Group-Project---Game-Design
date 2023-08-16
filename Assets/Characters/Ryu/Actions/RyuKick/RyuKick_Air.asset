@@ -15,18 +15,19 @@ MonoBehaviour:
   Name: 
   Type: 0
   Damage: 0
-  KnockBack: 0
+  KnockBack: 80
   KnockBackDirection: {x: 1, y: 0}
-  AttackTime: 0
-  StartDelay: 0
+  AttackTime: 0.4
+  StartDelay: 0.15
   EndDelay: 0
   Direction: 0
   CustomDirection: {x: 0, y: 0}
   Busy: 1
-  PlayerState: 2
+  PlayerState: 0
   MaxCombo: 0
-  HitPoints: []
-  HitSize: 0.2
+  HitPoints:
+  - {x: 1.25, y: -0.3}
+  HitSize: 0.4
   ProjectilePrefab: {fileID: 0}
   ProjectileSpeed: 0
   ProjectileStart: {x: 0, y: 0}

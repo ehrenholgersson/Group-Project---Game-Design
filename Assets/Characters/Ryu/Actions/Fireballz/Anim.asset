@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a07d8d611380744297352a2872d7e9a, type: 3}
-  m_Name: Anim_RyuPunch_Air
+  m_Name: Anim
   m_EditorClassIdentifier: 
   Name: 
   Type: 3
@@ -23,7 +23,7 @@ MonoBehaviour:
   Direction: 0
   CustomDirection: {x: 0, y: 0}
   Busy: 1
-  PlayerState: 0
+  PlayerState: 1
   MaxCombo: 0
   HitPoints: []
   HitSize: 0.2
@@ -34,4 +34,4 @@ MonoBehaviour:
   Force: {x: 0, y: 0}
   Destination: {x: 0, y: 0}
   Speed: 0
-  AnimationName: AirPunch
+  AnimationName: Fireball
