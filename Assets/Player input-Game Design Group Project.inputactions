@@ -277,6 +277,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9f6eb0c5-5dd5-4a29-a47a-ca06ff36f8a2",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ef662879-49ba-4816-a398-651a416d14e9",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
