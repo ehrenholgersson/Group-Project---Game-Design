@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a07d8d611380744297352a2872d7e9a, type: 3}
-  m_Name: New Action 1
+  m_Name: Charge_Hit
   m_EditorClassIdentifier: 
   Name: 
   Type: 0
@@ -35,3 +35,4 @@ MonoBehaviour:
   Force: {x: 0, y: 0}
   Destination: {x: 0, y: 0}
   Speed: 0
+  AnimationName: 

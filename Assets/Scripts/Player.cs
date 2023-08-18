@@ -114,23 +114,6 @@ public class Player : MonoBehaviour, IDamage
         transform.localScale = (new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
     }
 
-    #region Inputs
-    public void OnMove(InputValue value)
-    {
-        _inputDirection = value.Get<Vector2>();
-        // constrain to 8 directions
-        if (MathF.Abs(_inputDirection.x) > 0.2f && MathF.Abs(_inputDirection.y) > 0.2f)
-            _inputDirection = new Vector2(0.5f * (MathF.Abs(_inputDirection.x) / _inputDirection.x), 0.5f * (MathF.Abs(_inputDirection.y) / _inputDirection.y)) * _inputDirection.magnitude;
-        else if (MathF.Abs(_inputDirection.x) > MathF.Abs(_inputDirection.y))
-            _inputDirection = new Vector2(_inputDirection.x, 0);
-        else _inputDirection = new Vector2(0,_inputDirection.y);
-    }
-    public void OnJump(InputValue value)
-    {
-        _jump = true;
-       
-    }
-
     public void SetupCharacter()
     {
         if (_character != null && _character.Appearance != null)
@@ -147,6 +130,23 @@ public class Player : MonoBehaviour, IDamage
             _animator = gO.GetComponentInChildren<Animator>();
         }
     }
+
+    #region Inputs
+    public void OnMove(InputValue value)
+    {
+        _inputDirection = value.Get<Vector2>();
+        // constrain to 8 directions
+        if (MathF.Abs(_inputDirection.x) > 0.2f && MathF.Abs(_inputDirection.y) > 0.2f)
+            _inputDirection = new Vector2(0.5f * (MathF.Abs(_inputDirection.x) / _inputDirection.x), 0.5f * (MathF.Abs(_inputDirection.y) / _inputDirection.y)) * _inputDirection.magnitude;
+        else if (MathF.Abs(_inputDirection.x) > MathF.Abs(_inputDirection.y))
+            _inputDirection = new Vector2(_inputDirection.x, 0);
+        else _inputDirection = new Vector2(0,_inputDirection.y);
+    }
+    public void OnJump(InputValue value)
+    {
+        _jump = true;
+    }
+
 
     public void OnMoveAction(InputValue value)
     {
@@ -310,9 +310,9 @@ public class Player : MonoBehaviour, IDamage
         while (Time.time < _timer + startDelay)
             await Task.Delay(25);
         // Shooty shoot
-        GameObject gameO = Instantiate(prefab);
-        gameO.transform.position = _rb.position + startPoint;
-        if (gameO.TryGetComponent<Projectile>(out Projectile projectile))
+        GameObject gameObj = Instantiate(prefab);
+        gameObj.transform.position = _rb.position + startPoint;
+        if (gameObj.TryGetComponent<Projectile>(out Projectile projectile))
         {
             projectile.setup(direction, speed,damage,knockback, new Vector2(knockBackDirection.x * transform.localScale.x, knockBackDirection.y),1f,gameObject);
         }

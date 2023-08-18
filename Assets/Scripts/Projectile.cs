@@ -51,9 +51,9 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Contains("Character") && collision.gameObject != _owner)
-        {
-            if (collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
+        //if (/*collision.gameObject.tag.Contains("Character") &&*/ collision.gameObject != _owner)
+        //{
+            if (collision.gameObject != _owner && collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
             {
                 target.ApplyDamage(_damage);
                 if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb))
@@ -64,6 +64,6 @@ public class Projectile : MonoBehaviour
                 if (_comboCount<=1)
                     Destroy(gameObject);
             }
-        }
+        //}
     }
 }

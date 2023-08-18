@@ -29,9 +29,9 @@ public class MeleeHitBox : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Contains("Character") && collision.gameObject != transform.parent.gameObject)
-        {
-            if (collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
+        //if (/*collision.gameObject.tag.Contains("Character") && */collision.gameObject != transform.parent.gameObject)
+        //{
+            if (collision.gameObject != transform.parent.gameObject && collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
             {
                 target.ApplyDamage(Damage);
                 if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb))
@@ -40,6 +40,6 @@ public class MeleeHitBox : MonoBehaviour
                 _circleCollider.enabled = false;
                 _comboTimer = Time.time;
             }
-        }
+       // }
     }
 }
