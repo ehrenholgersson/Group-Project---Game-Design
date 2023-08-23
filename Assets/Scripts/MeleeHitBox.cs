@@ -16,6 +16,11 @@ public class MeleeHitBox : MonoBehaviour
     {
         _circleCollider = GetComponent<CircleCollider2D>();
         _indicator = GetComponent<SpriteRenderer>();
+        if (!Application.isEditor)
+        {
+            _indicator.enabled = false;
+        }
+
     }
 
   public void Update()

@@ -29,7 +29,6 @@ public class Player : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        //_animator = GetComponent<Animator>();
         SetupCharacter();
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
@@ -49,7 +48,6 @@ public class Player : MonoBehaviour, IDamage
     {
         if (!(_busyJobs > 0))
         {
-            //_animator.SetInteger("Attack", 0);
             if ((_inputDirection.x < 0 && _facingright) || (_inputDirection.x > 0 && !_facingright))
                 Flip();
             if (_grounded)
@@ -62,7 +60,7 @@ public class Player : MonoBehaviour, IDamage
                 if (_grounded)
                     _rb.velocity += new Vector2(0, 12);
                 else if (_doubleJump)
-                    if (_rb.velocity.y < 30) // why dis? I don't remember, may remove
+                    if (_rb.velocity.y < 30) // why? I don't remember, may remove
                     {
                         _rb.velocity += new Vector2(0, 12);
 
@@ -114,6 +112,7 @@ public class Player : MonoBehaviour, IDamage
         transform.localScale = (new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
     }
 
+    //Instantiate skin/animation prefab specified by character object and declare _animator 
     public void SetupCharacter()
     {
         if (_character != null && _character.Appearance != null)
@@ -196,7 +195,7 @@ public class Player : MonoBehaviour, IDamage
     }
 
     # endregion Inputs
-
+    
     public void ProcessActions(List<Action> actions)
     {
         foreach (Action a in actions)
@@ -316,7 +315,6 @@ public class Player : MonoBehaviour, IDamage
         {
             projectile.setup(direction, speed,damage,knockback, new Vector2(knockBackDirection.x * transform.localScale.x, knockBackDirection.y),1f,gameObject);
         }
-
         // End Delay
         _timer = Time.time;
         while (Time.time < _timer + EndDelay)
@@ -338,29 +336,29 @@ public class Player : MonoBehaviour, IDamage
 
     #region Movement 
 
-    async void MovetoPoint(Vector2 destination, float attackTime, float startDelay, float endDelay,bool busy) // todo -- if player is moved by some other means then also move the destination so that they do not "snap" back in weird way, also this currently has a timeout of 2 seconds, could make this an action defined variable but should use distance to destination vs speed to come up with a more suitable value
+    async void MovetoPoint(Vector2 destination, float attackTime, float startDelay, float endDelay,bool busy) // todo -- if player is moved by some other means then also move the destination so that they do not "snap" back in weird way
     {
         if (busy)
             _busyJobs++;
         float speed = destination.magnitude/attackTime;
         _rb.gravityScale = 0;
         _rb.velocity = Vector2.zero;
+        //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
+        //Movement
         timer = Time.time;
         Vector2 direction = (destination).normalized;
-        //        Vector2 setVelocity = _rb.position;
-        //Debug.Log("Move started to " + destination + "at "+_rb.position);
         Debug.Log("speed is " + speed);
-        while (Time.time < timer + attackTime)//(Mathf.Abs((destination - _rb.position).magnitude) > 1f && (Time.time < timer + 2))
+        while (Time.time < timer + attackTime)
         {
-            _rb.velocity = direction * speed;//(destination - _rb.position).normalized * speed;
+            _rb.velocity = direction * speed;
             await Task.Delay(25);
         }
-        //Debug.Log("Move complete at "+_rb.position);
         _rb.gravityScale = 1;
-        _rb.velocity = direction * (speed/4); // this should be based on some vale provided in args
+        _rb.velocity = direction * (speed/4); // maybe this should be based on some vale provided in args
+        // End Delay
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);
@@ -376,11 +374,13 @@ public class Player : MonoBehaviour, IDamage
         float timer = Time.time;
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
+        // move player to layer 7 for specified time
         gameObject.layer = 7;
         timer = Time.time;
         while (Time.time < timer + attackTime)
             await Task.Delay(25);
         gameObject.layer = 3;
+        // End Delay
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);
@@ -396,13 +396,23 @@ public class Player : MonoBehaviour, IDamage
         float timer = Time.time;
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
+
         _rb.AddForce(force);
+
+        //end delay
         timer = Time.time;
         while (Time.time < timer + endDelay)
             await Task.Delay(25);
         if (busy)
             _busyJobs--;
 
+    }
+
+    async void Stun(float time) // just sets the player as "busy" for specified time, for use with hit/block stun 
+    {
+        _busyJobs++;
+        await Task.Delay((int)(time * 1000));
+        _busyJobs--;
     }
 
     #endregion Movement 
