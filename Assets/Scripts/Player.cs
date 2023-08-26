@@ -23,10 +23,11 @@ public class Player : MonoBehaviour, IDamage
     Vector2 _inputDirection;
     int _busyJobs;
     [SerializeField] GameObject _meleeBox;
-    [SerializeField] Character _character;
+    public Character PlayerCharacter { get; private set; };
     Image _healthbar;
     public int PlayerNumber { get; private set;}
     Animator _animator;
+    MenuController _menuController;
 
     void OnEnable()
     {
@@ -40,11 +41,11 @@ public class Player : MonoBehaviour, IDamage
         SetupCharacter();
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
-        if (_character != null)
+        if (PlayerCharacter != null)
         {
-            _speed = _character.Speed;
-            _rb.mass = _character.Mass;
-            Health = _character.Health;
+            _speed = PlayerCharacter.Speed;
+            _rb.mass = PlayerCharacter.Mass;
+            Health = PlayerCharacter.Health;
         }
         PlayerNumber = GetComponent<PlayerInput>().playerIndex;
 
@@ -56,7 +57,8 @@ public class Player : MonoBehaviour, IDamage
         }
         else if (SceneManager.GetActiveScene().name.Contains("Menu")) // maybe move to start?
         {
-            MenuController.Players = GetComponent<PlayerInput>().playerIndex;
+            _menuController = GameObject.Find("MenuController").GetComponent<MenuController>();
+            //MenuController.Players = GetComponent<PlayerInput>().playerIndex;
             _busyJobs = 10;
         }
         PlayerSpawn();
@@ -67,6 +69,12 @@ public class Player : MonoBehaviour, IDamage
         transform.position = GameObject.Find("P"+ (PlayerNumber + 1) + "Spawn").transform.position;
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         
+    }
+
+    public void ChangeCharacter(Character character)
+    {
+        PlayerCharacter = character;
+        SetupCharacter();
     }
 
     // Update is called once per frame
@@ -112,7 +120,7 @@ public class Player : MonoBehaviour, IDamage
         if (collision.gameObject.layer != 6)
         {
             _grounded = true;
-            if (_character.DoubleJump)
+            if (PlayerCharacter.DoubleJump)
                 _doubleJump = true;
             _dashAvailable = true;
             _rb.drag = 3;
@@ -133,7 +141,7 @@ public class Player : MonoBehaviour, IDamage
     {
         Health -= damage;
         Debug.Log(gameObject.name + " is hit for " + damage + " damage.");
-        _healthbar.fillAmount = Health/_character.Health;
+        _healthbar.fillAmount = Health/PlayerCharacter.Health;
     }
 
     void Flip()
@@ -145,7 +153,7 @@ public class Player : MonoBehaviour, IDamage
     //Instantiate skin/animation prefab specified by character object and declare _animator 
     public void SetupCharacter()
     {
-        if (_character != null && _character.Appearance != null)
+        if (PlayerCharacter != null && PlayerCharacter.Appearance != null)
         {
             foreach (Transform t in GetComponentsInChildren<Transform>())
             {
@@ -153,7 +161,7 @@ public class Player : MonoBehaviour, IDamage
                 if (t.tag == "Skin")
                     Destroy(t.gameObject);
             }
-            GameObject gO = Instantiate(_character.Appearance);
+            GameObject gO = Instantiate(PlayerCharacter.Appearance);
             gO.transform.position = transform.position;
             gO.transform.SetParent(transform, true);
             _animator = gO.GetComponentInChildren<Animator>();
@@ -163,6 +171,19 @@ public class Player : MonoBehaviour, IDamage
     #region Inputs
     public void OnMove(InputValue value)
     {
+        if (_menuController!=null)
+        {
+            if (value.Get<Vector2>().y < -0.5f)
+            {
+                _menuController.MenuDown(PlayerNumber+1);
+                Debug.Log("Player - MenuUp");
+            }
+            if (value.Get<Vector2>().y > 0.5f)
+            {
+                _menuController.MenuUp(PlayerNumber+1);
+                Debug.Log("Player - MenuDown");
+            }
+        }
         _inputDirection = value.Get<Vector2>();
         // constrain to 8 directions
         if (MathF.Abs(_inputDirection.x) > 0.2f && MathF.Abs(_inputDirection.y) > 0.2f)
@@ -199,37 +220,37 @@ public class Player : MonoBehaviour, IDamage
     public void OnAction1(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Input1);
+            ProcessActions(PlayerCharacter.Input1);
     }
 
     public void OnAction2(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Input2);
+            ProcessActions(PlayerCharacter.Input2);
     }
 
     public void OnAction3(InputValue value) 
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Input3);
+            ProcessActions(PlayerCharacter.Input3);
     }
 
     public void OnAction4(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Input4);
+            ProcessActions(PlayerCharacter.Input4);
     }
 
     public void OnAction5(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Input5);
+            ProcessActions(PlayerCharacter.Input5);
     }
 
     public void OnAction6(InputValue value)
     {
         if (!(_busyJobs > 0))
-            ProcessActions(_character.Input6);
+            ProcessActions(PlayerCharacter.Input6);
     }
 
     # endregion Inputs

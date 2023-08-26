@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 //using System.Collections;
 //using System.Collections.Generic;
 //using System.Diagnostics.Tracing;
 //using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -17,10 +21,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _characterList;
     [SerializeField] GameObject[] _menus;
     int _selectedmenu = 0;
-    int[,] _playerSelection = new int[2, 4];
-    int _players;
-    public static int Players = 0;
-    SpriteRenderer[,] _levelBox;
+    List<int>[] _playerSelection = new List<int>[] {new List<int>(),new List<int>() };
+    Image[,] _levelBox;
+    [SerializeField] Image[] _playerBox;
+    List<Player> _players = new List<Player>();
 
     private IDisposable _eventListener;
     // Start is called before the first frame update
@@ -29,12 +33,22 @@ public class MenuController : MonoBehaviour
     void OnEnable()
     {
         _eventListener = InputSystem.onAnyButtonPress.Call(OnButtonPressed);
+        _playerSelection[0].Add(1);
+        _playerSelection[0].Add(2);
+        _playerSelection[0].Add(3);
+        _playerSelection[0].Add(4);
+        
 
     }
 
     void OnDisable()
     {
         _eventListener.Dispose();
+    }
+
+    void AddPlayer(Player player)
+    {
+        _players.Add(player);
     }
 
     void OnButtonPressed(InputControl button)
@@ -45,10 +59,7 @@ public class MenuController : MonoBehaviour
             ChangeMenu(1);
         }
         // check if player was spawned
-        if (Players < _players)
-        {
-            _players++;
-        }
+
         //if (button.name == )
     }
 
@@ -66,84 +77,127 @@ public class MenuController : MonoBehaviour
                 _menus[i].gameObject.SetActive(false);
             }
         }
-        
+        UpdateSelection();
+
     }
 
-    void MenuDown(int player)
+    public void MenuDown(int player)
     {
-        for (int x = 0;x<_playerSelection.GetLength(0);x++)
-            for (int y = 0;y<_playerSelection.GetLength(1);y++)
-            {
-                if (_playerSelection[x,y] == player)
-                {
-                    _playerSelection[x , y] = 0;
-                    _playerSelection[x--% _playerSelection.GetLength(0), y] = player;
-                    UpdateSelection();
-                    return;
-                }
-            }
+        if (_playerSelection[0].Contains(player))
+        {
+            Debug.Log("move to 1");
+            _playerSelection[0].Remove(player);
+            _playerSelection[1].Add(player);
+        }
+        else if (_playerSelection[1].Contains(player))
+        {
+            Debug.Log("move to 0");
+            _playerSelection[1].Remove(player);
+            _playerSelection[0].Add(player);
+        }
+        UpdateSelection();
+
     }
-    void MenuUp(int player)
+    public void MenuUp(int player)
     {
-        for (int x = 0; x < _playerSelection.GetLength(0); x++)
-            for (int y = 0; y < _playerSelection.GetLength(1); y++)
-            {
-                if (_playerSelection[x, y] == player)
-                {
-                    _playerSelection[x, y] = 0;
-                    _playerSelection[x++ % _playerSelection.GetLength(0), y] = player;
-                    UpdateSelection();
-                    return;
-                }
-            }
+        MenuDown(player);
+        //only 2 options in either menu :)
     }
-    void MenuLeft(int player)
+    public void MenuLeft(int player)
     {
         for (int x = 0; x < _playerSelection.GetLength(0); x++)
             for (int y = 0; y < _playerSelection.GetLength(1); y++)
             {
-                if (_playerSelection[x, y] == player)
+                if (_characters.Contains(_players[player].PlayerCharacter))
                 {
-                    if (x == 0 && _selectedmenu ==1)
-                    {
-                        // previous character 
-                    }
-                    else if (x==1 && _selectedmenu ==1)
-                    {
-                        //previous level
-                    }
+
                 }
             }
     }
-    void MenuRight(int player)
+    public void MenuRight(int player)
     {
         for (int x = 0; x < _playerSelection.GetLength(0); x++)
             for (int y = 0; y < _playerSelection.GetLength(1); y++)
             {
-                if (_playerSelection[x, y] == player)
-                {
-                    if (x == 0 && _selectedmenu == 1)
-                    {
-                        // next character 
-                    }
-                    else if (x == 1 && _selectedmenu == 1)
-                    {
-                        //next level
-                    }
-                }
+                //if (_playerSelection[x, y] == player)
+                //{
+                //    if (x == 0 && _selectedmenu == 1)
+                //    {
+                //        // next character 
+                //    }
+                //    else if (x == 1 && _selectedmenu == 1)
+                //    {
+                //        //next level
+                //    }
+                //}
             }
     }
-    void MenuSelect(int player)
+    public void MenuSelect(int player)
     {
         
     }
-    void MenuBack(int player)
+    public void MenuBack(int player)
     {
 
     }
     void UpdateSelection()
     { 
+        if (_selectedmenu == 1)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                _playerBox[i].color = new Color(_playerBox[i].color.r, _playerBox[i].color.g, _playerBox[i].color.b, 0);
+                for (int k = 0; k < _levelBox.GetLength(1); k++)
+                    _levelBox[i, k].color = new Color(0,0,0,0);
+            }
+            foreach (int i in _playerSelection[0])
+            {
+                switch (i)
+                {
+                    case 1:
+                        _playerBox[0].color = new Color(_playerBox[0].color.r, _playerBox[0].color.g, _playerBox[0].color.b, 1);
+                        break;
 
+                    case 2:
+                        _playerBox[1].color = new Color(_playerBox[1].color.r, _playerBox[1].color.g, _playerBox[1].color.b, 1);
+                        break;
+
+                    case 3:
+                        _playerBox[2].color = new Color(_playerBox[2].color.r, _playerBox[2].color.g, _playerBox[2].color.b, 1);
+                        break;
+
+                    case 4:
+                        _playerBox[3].color = new Color(_playerBox[3].color.r, _playerBox[3].color.g, _playerBox[3].color.b, 1);
+                        break;
+                }
+            }
+            int j = 0;
+            foreach (int i in _playerSelection[1])
+            {
+                switch (i)
+                {
+                    case 1:
+                        for (int k = 0; k < _levelBox.GetLength(1); k++)
+                            _levelBox[j, k].color = Color.red;
+                        break;
+
+                    case 2:
+                        for (int k = 0; k < _levelBox.GetLength(1); k++)
+                            _levelBox[j, k].color = Color.blue;
+                        break;
+
+                    case 3:
+                        for (int k = 0; k < _levelBox.GetLength(1); k++)
+                            _levelBox[j, k].color = Color.green;
+                        break;
+
+                    case 4:
+                        for (int k = 0; k < _levelBox.GetLength(1); k++)
+                            _levelBox[j, k].color = Color.yellow;
+                        break;
+                }
+            }
+        }
     }
 
 
@@ -152,15 +206,16 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-        _levelBox = new SpriteRenderer[4, 4];
+        _levelBox = new Image[4, 4];
         for (int i = 1;i<5;i++)
         {
             GameObject box = GameObject.Find("LevelSelectBox" + i);
             //for (int j = 1; j < 3; j++)
             int j = 0;
-            foreach (SpriteRenderer s in  box.GetComponentsInChildren<SpriteRenderer>())
+            foreach (Image s in  box.GetComponentsInChildren<Image>())
             {
-                _levelBox[i, j] = s;
+                _levelBox[i-1, j] = s;
+                Debug.Log("added " + i + "," + j);
                 j++;
             }
 
@@ -186,6 +241,7 @@ public class MenuController : MonoBehaviour
         {
             _levelList.text += level.name + "<br>";
         }
+        
     }
 
     // Update is called once per frame
