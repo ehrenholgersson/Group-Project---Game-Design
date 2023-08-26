@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Diagnostics.Tracing;
-//using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,11 +9,12 @@ using UnityEngine.InputSystem.Utilities;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
-public class MenuController : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     Character[] _characters;
     GameObject[] _levels;
     [SerializeField] TextMeshProUGUI _levelList;
+    [SerializeField] TextMeshProUGUI _levelName;
     [SerializeField] TextMeshProUGUI _characterList;
     [SerializeField] GameObject[] _menus;
     int _selectedmenu = 0;
@@ -25,30 +22,26 @@ public class MenuController : MonoBehaviour
     Image[,] _levelBox;
     [SerializeField] Image[] _playerBox;
     List<Player> _players = new List<Player>();
+    List<bool> _readyplayers = new List<bool>();
+    int _selectedLevel = 0;
+    GameObject _background;
+    public static State GameState;
+
+    public enum State {Game, Menu}
+
 
     private IDisposable _eventListener;
     // Start is called before the first frame update
 #region Menu Controls
 
-    void OnEnable()
-    {
-        _eventListener = InputSystem.onAnyButtonPress.Call(OnButtonPressed);
-        _playerSelection[0].Add(1);
-        _playerSelection[0].Add(2);
-        _playerSelection[0].Add(3);
-        _playerSelection[0].Add(4);
-        
 
-    }
-
-    void OnDisable()
-    {
-        _eventListener.Dispose();
-    }
-
-    void AddPlayer(Player player)
+    public void AddPlayer(Player player)
     {
         _players.Add(player);
+        _readyplayers.Add(false);
+        player.ChangeCharacter(_characters[0]);
+        _playerSelection[0].Add(_players.Count);
+        UpdateSelection();
     }
 
     void OnButtonPressed(InputControl button)
@@ -78,20 +71,23 @@ public class MenuController : MonoBehaviour
             }
         }
         UpdateSelection();
+        //if (index == 1)
+        //    foreach (Player player in _players)
+        //    {
+        //        player.ChangeCharacter(_characters[0]);
+        //    }
 
     }
 
     public void MenuDown(int player)
     {
         if (_playerSelection[0].Contains(player))
-        {
-            Debug.Log("move to 1");
+        {          
             _playerSelection[0].Remove(player);
             _playerSelection[1].Add(player);
         }
         else if (_playerSelection[1].Contains(player))
         {
-            Debug.Log("move to 0");
             _playerSelection[1].Remove(player);
             _playerSelection[0].Add(player);
         }
@@ -105,32 +101,52 @@ public class MenuController : MonoBehaviour
     }
     public void MenuLeft(int player)
     {
-        for (int x = 0; x < _playerSelection.GetLength(0); x++)
-            for (int y = 0; y < _playerSelection.GetLength(1); y++)
+        if (_selectedmenu == 1)
+            Debug.Log("Menu_right");
+        {
+            if (_playerSelection[0].Contains(player))
             {
-                if (_characters.Contains(_players[player].PlayerCharacter))
+                if (_characters.Contains(_players[player - 1].PlayerCharacter))
                 {
-
+                    int selChar = Array.IndexOf(_characters, _players[player - 1].PlayerCharacter)-1;
+                    if (selChar < 0)
+                        selChar = _characters.Length - 1;
+                    _players[player - 1].ChangeCharacter(_characters[selChar]);
                 }
             }
+            if (_playerSelection[1].Contains(player))
+            {
+                _selectedLevel--;
+                if (_selectedLevel<0)
+                    _selectedLevel = _levels.Length - 1;
+                _selectedLevel = _selectedLevel % _levels.Length;
+                Debug.Log("selected level " + _selectedLevel);
+                Destroy(_background);
+                _background = Instantiate(_levels[_selectedLevel]);
+            }
+        }
+        UpdateSelection();
     }
     public void MenuRight(int player)
     {
-        for (int x = 0; x < _playerSelection.GetLength(0); x++)
-            for (int y = 0; y < _playerSelection.GetLength(1); y++)
+        if (_selectedmenu == 1)
+            Debug.Log("Menu_right");
+        {
+            if (_playerSelection[0].Contains(player))
             {
-                //if (_playerSelection[x, y] == player)
-                //{
-                //    if (x == 0 && _selectedmenu == 1)
-                //    {
-                //        // next character 
-                //    }
-                //    else if (x == 1 && _selectedmenu == 1)
-                //    {
-                //        //next level
-                //    }
-                //}
+                if (_characters.Contains(_players[player-1].PlayerCharacter))
+                    _players[player-1].ChangeCharacter(_characters[(Array.IndexOf(_characters, _players[player-1].PlayerCharacter) + 1) % _characters.Length]);                       
             }
+            if (_playerSelection[1].Contains(player))
+            {
+                _selectedLevel++;
+                _selectedLevel = _selectedLevel% _levels.Length;
+                Debug.Log("selected level " + _selectedLevel);
+                Destroy(_background);
+                _background = Instantiate(_levels[_selectedLevel]);
+            }
+        }
+        UpdateSelection();
     }
     public void MenuSelect(int player)
     {
@@ -196,13 +212,37 @@ public class MenuController : MonoBehaviour
                             _levelBox[j, k].color = Color.yellow;
                         break;
                 }
+                j++;
             }
         }
+        _levelName.text = _levels[_selectedLevel].name;
     }
 
 
     #endregion
+    void OnDisable()
+    {
+        _eventListener.Dispose();
+    }
 
+    public void ResetMenu()
+    {
+        // boot players
+        foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player_character"))
+        // goto first menu screen
+        _selectedmenu = 0;
+        // change to random level
+        _selectedLevel = UnityEngine.Random.Range(0, _levels.Length);
+        _background = Instantiate(_levels[_selectedLevel]);
+    }
+    void OnEnable()
+    {
+        _eventListener = InputSystem.onAnyButtonPress.Call(OnButtonPressed);
+        //_playerSelection[0].Add(1);
+        //_playerSelection[0].Add(2);
+        //_playerSelection[0].Add(3);
+        //_playerSelection[0].Add(4);
+    }
 
     void Start()
     {
@@ -220,14 +260,13 @@ public class MenuController : MonoBehaviour
             }
 
         }
-        ChangeMenu(0);
 
         UnityEngine.Object[] loadArray = Resources.LoadAll("Characters", typeof(Character));
         _characters = new Character[loadArray.Length];
         loadArray.CopyTo( _characters, 0 );
         Debug.Log("Found " + loadArray.Length + " characters");
         //_characters = (Resources.LoadAll("Characters/Selectable", typeof(Character)) as Character[]).ToList();
-        loadArray = Resources.LoadAll("", typeof(GameObject));
+        loadArray = Resources.LoadAll("Levels", typeof(GameObject));
         _levels = new GameObject[loadArray.Length];
         loadArray.CopyTo(_levels, 0 );
 
@@ -241,7 +280,11 @@ public class MenuController : MonoBehaviour
         {
             _levelList.text += level.name + "<br>";
         }
-        
+
+        ChangeMenu(0);
+        _selectedLevel = UnityEngine.Random.Range(0, _levels.Length);
+        _background = Instantiate(_levels[_selectedLevel]);
+
     }
 
     // Update is called once per frame

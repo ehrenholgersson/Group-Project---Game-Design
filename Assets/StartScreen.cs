@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.Utilities;
 public class StartScreen : MonoBehaviour
 {
     private IDisposable _eventListener;
-    MenuController _mController;
+    GameController _mController;
 
     void OnEnable()
     {

@@ -23,11 +23,11 @@ public class Player : MonoBehaviour, IDamage
     Vector2 _inputDirection;
     int _busyJobs;
     [SerializeField] GameObject _meleeBox;
-    public Character PlayerCharacter { get; private set; };
+    public Character PlayerCharacter { get; private set; }
     Image _healthbar;
     public int PlayerNumber { get; private set;}
     Animator _animator;
-    MenuController _menuController;
+    GameController _gameController;
 
     void OnEnable()
     {
@@ -49,16 +49,17 @@ public class Player : MonoBehaviour, IDamage
         }
         PlayerNumber = GetComponent<PlayerInput>().playerIndex;
 
-        if (SceneManager.GetActiveScene().name.Contains("Game"))
+        if (GameController.GameState == GameController.State.Game)
         {
             PlayerUI.Player[PlayerNumber].SetActive(true);
             _healthbar = PlayerUI.Player[PlayerNumber].GetComponentInChildren<Image>();
             _busyJobs = 0;
         }
-        else if (SceneManager.GetActiveScene().name.Contains("Menu")) // maybe move to start?
+        else if (GameController.GameState == GameController.State.Menu) // maybe move to start?
         {
-            _menuController = GameObject.Find("MenuController").GetComponent<MenuController>();
+            _gameController = GameObject.Find("GameController").GetComponent<GameController>();
             //MenuController.Players = GetComponent<PlayerInput>().playerIndex;
+            _gameController.AddPlayer(this);
             _busyJobs = 10;
         }
         PlayerSpawn();
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour, IDamage
 
     public void ChangeCharacter(Character character)
     {
+        Debug.Log("Change character");
         PlayerCharacter = character;
         SetupCharacter();
     }
@@ -117,7 +119,7 @@ public class Player : MonoBehaviour, IDamage
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.layer != 6)
+        if (collision.gameObject.layer != 6 && PlayerCharacter != null) 
         {
             _grounded = true;
             if (PlayerCharacter.DoubleJump)
@@ -171,17 +173,25 @@ public class Player : MonoBehaviour, IDamage
     #region Inputs
     public void OnMove(InputValue value)
     {
-        if (_menuController!=null)
+        if (_gameController!=null)
         {
             if (value.Get<Vector2>().y < -0.5f)
             {
-                _menuController.MenuDown(PlayerNumber+1);
+                _gameController.MenuDown(PlayerNumber+1);
                 Debug.Log("Player - MenuUp");
             }
             if (value.Get<Vector2>().y > 0.5f)
             {
-                _menuController.MenuUp(PlayerNumber+1);
+                _gameController.MenuUp(PlayerNumber+1);
                 Debug.Log("Player - MenuDown");
+            }
+            if (value.Get<Vector2>().x > 0.5f)
+            {
+                _gameController.MenuRight(PlayerNumber + 1);
+            }
+            if (value.Get<Vector2>().x < -0.5f)
+            {
+                _gameController.MenuLeft(PlayerNumber + 1);
             }
         }
         _inputDirection = value.Get<Vector2>();
