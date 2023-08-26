@@ -25,7 +25,8 @@ public class GameController : MonoBehaviour
     List<bool> _readyplayers = new List<bool>();
     int _selectedLevel = 0;
     GameObject _background;
-    public static State GameState;
+    GameObject _characterScene;
+    public static State GameState = State.Menu;
 
     public enum State {Game, Menu}
 
@@ -46,6 +47,8 @@ public class GameController : MonoBehaviour
 
     void OnButtonPressed(InputControl button)
     {
+        if (GameState == State.Game)
+            return;
         Debug.Log(button.name);
         if (_selectedmenu == 0)
         {
@@ -58,12 +61,13 @@ public class GameController : MonoBehaviour
 
     void ChangeMenu(int index)
     {
+        _selectedmenu = index;
         for (int i = 0; i < _menus.Length; i++)
         {
-            if (i == index)
+            if (i == index&&GameState==State.Menu)
             {
                 _menus[i].gameObject.SetActive(true);
-                _selectedmenu = i;
+                
             }
             else
             {
@@ -71,16 +75,12 @@ public class GameController : MonoBehaviour
             }
         }
         UpdateSelection();
-        //if (index == 1)
-        //    foreach (Player player in _players)
-        //    {
-        //        player.ChangeCharacter(_characters[0]);
-        //    }
-
     }
 
     public void MenuDown(int player)
     {
+        if (GameState == State.Game)
+            return;
         if (_playerSelection[0].Contains(player))
         {          
             _playerSelection[0].Remove(player);
@@ -101,6 +101,8 @@ public class GameController : MonoBehaviour
     }
     public void MenuLeft(int player)
     {
+        if (GameState == State.Game)
+            return;
         if (_selectedmenu == 1)
             Debug.Log("Menu_right");
         {
@@ -129,6 +131,8 @@ public class GameController : MonoBehaviour
     }
     public void MenuRight(int player)
     {
+        if (GameState == State.Game)
+            return;
         if (_selectedmenu == 1)
             Debug.Log("Menu_right");
         {
@@ -150,11 +154,50 @@ public class GameController : MonoBehaviour
     }
     public void MenuSelect(int player)
     {
-        
+        if (GameState == State.Game)
+            return;
+        if ( _selectedmenu == 1)
+        {
+            _readyplayers[player -1] = true;
+            UpdateSelection();
+            if (_readyplayers.Count > 1)
+            {
+                foreach(bool ready in _readyplayers)
+                {
+                    if (!ready)
+                        return;
+                }
+                BeginRound();
+            }
+
+        }
     }
     public void MenuBack(int player)
     {
+        if (GameState == State.Game)
+            return;
+        if (_selectedmenu == 1)
+            _readyplayers[player - 1] = false;
+        UpdateSelection();
+    }
 
+    public void CheckWin()
+    {
+        int count = 0;
+        foreach (Player p in _players)
+        {
+            if (!p.Dead)
+                count++;
+        }
+        if (count > 1)
+            return;
+        foreach (Player p in _players)
+        {
+            if (!p.Dead)
+                Debug.Log("player " + p.PlayerNumber + " won");
+        }
+        GameState = State.Menu;
+        ResetMenu();
     }
     void UpdateSelection()
     { 
@@ -225,32 +268,56 @@ public class GameController : MonoBehaviour
         _eventListener.Dispose();
     }
 
+    void BeginRound()
+    {
+        PlayerInputManager.instance.DisableJoining();
+        GameState = State.Game;
+        _characterScene.SetActive(false);
+        _background.transform.Find("Spawn").gameObject.SetActive(true);
+        //"change" character to trigger a respawn
+        foreach (Player p in _players)
+        {
+            p.ChangeCharacter(p.PlayerCharacter);
+        }
+        ChangeMenu(0);
+    }
+
     public void ResetMenu()
     {
         // boot players
-        foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player_character"))
+        foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player_Character"))
+        {
+            Destroy(p);
+        }
+        _players.Clear();
+        _readyplayers.Clear();
+        // reenable stage for player select rendertexture and enable joining
+        PlayerInputManager.instance.EnableJoining();
+        _characterScene.SetActive(true);
         // goto first menu screen
-        _selectedmenu = 0;
+        ChangeMenu(0);
+
+        // clear player menu selection
+        _playerSelection[0].Clear();
+        _playerSelection[1].Clear();
+
         // change to random level
+        Destroy(_background);
         _selectedLevel = UnityEngine.Random.Range(0, _levels.Length);
         _background = Instantiate(_levels[_selectedLevel]);
     }
     void OnEnable()
     {
         _eventListener = InputSystem.onAnyButtonPress.Call(OnButtonPressed);
-        //_playerSelection[0].Add(1);
-        //_playerSelection[0].Add(2);
-        //_playerSelection[0].Add(3);
-        //_playerSelection[0].Add(4);
     }
 
     void Start()
     {
+        _characterScene = GameObject.Find("Characters");
         _levelBox = new Image[4, 4];
         for (int i = 1;i<5;i++)
         {
             GameObject box = GameObject.Find("LevelSelectBox" + i);
-            //for (int j = 1; j < 3; j++)
             int j = 0;
             foreach (Image s in  box.GetComponentsInChildren<Image>())
             {

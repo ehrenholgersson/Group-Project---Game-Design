@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: New Character
   m_EditorClassIdentifier: 
   Name: Placeholder Man
-  Health: 5
-  Speed: 10
-  Mass: 3
+  Health: 150
+  Speed: 35
+  Mass: 1.6
   Appearance: {fileID: 6022995091550823611, guid: 2dd2b23ee167b60488e95304d7bdaba8, type: 3}
   MovementInput: []
   Input1: []

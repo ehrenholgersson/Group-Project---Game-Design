@@ -28,6 +28,8 @@ public class Player : MonoBehaviour, IDamage
     public int PlayerNumber { get; private set;}
     Animator _animator;
     GameController _gameController;
+    public bool Dead {get; private set;}
+
 
     void OnEnable()
     {
@@ -41,34 +43,28 @@ public class Player : MonoBehaviour, IDamage
         SetupCharacter();
         Application.targetFrameRate = 120;
         _rb = GetComponent<Rigidbody2D>();
-        if (PlayerCharacter != null)
-        {
-            _speed = PlayerCharacter.Speed;
-            _rb.mass = PlayerCharacter.Mass;
-            Health = PlayerCharacter.Health;
-        }
         PlayerNumber = GetComponent<PlayerInput>().playerIndex;
 
         if (GameController.GameState == GameController.State.Game)
         {
             PlayerUI.Player[PlayerNumber].SetActive(true);
             _healthbar = PlayerUI.Player[PlayerNumber].GetComponentInChildren<Image>();
-            _busyJobs = 0;
         }
         else if (GameController.GameState == GameController.State.Menu) // maybe move to start?
         {
             _gameController = GameObject.Find("GameController").GetComponent<GameController>();
             //MenuController.Players = GetComponent<PlayerInput>().playerIndex;
             _gameController.AddPlayer(this);
-            _busyJobs = 10;
         }
         PlayerSpawn();
     }
 
     void PlayerSpawn()
     {
-        transform.position = GameObject.Find("P"+ (PlayerNumber + 1) + "Spawn").transform.position;
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        Vector3 newpos = GameObject.Find("P" + (PlayerNumber + 1) + "Spawn").transform.position;
+        Debug.Log("player spawned at " + newpos.x + "," + newpos.y);
+        //transform.position = GameObject.Find("P"+ (PlayerNumber + 1) + "Spawn").transform.position;
+        transform.position = new Vector3(newpos.x, newpos.y, 0);
         
     }
 
@@ -141,9 +137,27 @@ public class Player : MonoBehaviour, IDamage
 
     public void ApplyDamage(float damage)
     {
-        Health -= damage;
-        Debug.Log(gameObject.name + " is hit for " + damage + " damage.");
-        _healthbar.fillAmount = Health/PlayerCharacter.Health;
+        if (!_blockState)
+        {
+            Health -= damage;
+            Debug.Log(gameObject.name + " is hit for " + damage + " damage.");
+            _healthbar.fillAmount = Health / PlayerCharacter.Health;
+            //Animate("Hit", 0.1f);
+            Stun(0.1f);
+            if (Health <=0 )
+            {
+                Dead = true;
+                //_animator.Play("KO");
+                gameObject.layer = 7;
+                _busyJobs++;
+                _gameController.CheckWin();
+            }
+        }
+        else
+        {
+            //Animate("BlockHit",0.06f)
+            Stun(0.06f);
+        }
     }
 
     void Flip()
@@ -157,6 +171,9 @@ public class Player : MonoBehaviour, IDamage
     {
         if (PlayerCharacter != null && PlayerCharacter.Appearance != null)
         {
+            _speed = PlayerCharacter.Speed;
+            _rb.mass = PlayerCharacter.Mass;
+            Health = PlayerCharacter.Health;
             foreach (Transform t in GetComponentsInChildren<Transform>())
             {
 
@@ -167,7 +184,27 @@ public class Player : MonoBehaviour, IDamage
             gO.transform.position = transform.position;
             gO.transform.SetParent(transform, true);
             _animator = gO.GetComponentInChildren<Animator>();
+            //enabled/disable movement based on game state
+            if (GameController.GameState == GameController.State.Game)
+                _busyJobs = 0;
+            else
+                _busyJobs = 1;
         }
+        if (GameController.GameState == GameController.State.Game)
+        {
+            PlayerUI.Player[PlayerNumber].SetActive(true);
+            _healthbar = PlayerUI.Player[PlayerNumber].GetComponentInChildren<Image>();
+            _healthbar.fillAmount = Health / PlayerCharacter.Health;
+            gameObject.layer = 3;
+            _busyJobs = 0;
+            Dead = false;
+        }
+        PlayerSpawn();
+    }
+
+    private void OnDestroy()
+    {
+        PlayerUI.Player[PlayerNumber].SetActive(false);
     }
 
     #region Inputs
@@ -204,6 +241,8 @@ public class Player : MonoBehaviour, IDamage
     }
     public void OnJump(InputValue value)
     {
+        if (_gameController!= null && GameController.GameState == GameController.State.Menu)
+            _gameController.MenuSelect(PlayerNumber+1);
         _jump = true;
     }
 
@@ -235,6 +274,8 @@ public class Player : MonoBehaviour, IDamage
 
     public void OnAction2(InputValue value)
     {
+        if (GameController.GameState == GameController.State.Menu)
+            _gameController.MenuSelect(PlayerNumber + 1);
         if (!(_busyJobs > 0))
             ProcessActions(PlayerCharacter.Input2);
     }
