@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // currently multiplying things by transform.localscale.x to change facing direction,this works but could cause problems later
@@ -27,6 +28,12 @@ public class Player : MonoBehaviour, IDamage
     public int PlayerNumber { get; private set;}
     Animator _animator;
 
+    void OnEnable()
+    {
+
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +47,26 @@ public class Player : MonoBehaviour, IDamage
             Health = _character.Health;
         }
         PlayerNumber = GetComponent<PlayerInput>().playerIndex;
-        PlayerUI.Player[PlayerNumber].SetActive(true);
-        _healthbar = PlayerUI.Player[PlayerNumber].GetComponentInChildren<Image>();
+
+        if (SceneManager.GetActiveScene().name.Contains("Game"))
+        {
+            PlayerUI.Player[PlayerNumber].SetActive(true);
+            _healthbar = PlayerUI.Player[PlayerNumber].GetComponentInChildren<Image>();
+            _busyJobs = 0;
+        }
+        else if (SceneManager.GetActiveScene().name.Contains("Menu")) // maybe move to start?
+        {
+            MenuController.Players = GetComponent<PlayerInput>().playerIndex;
+            _busyJobs = 10;
+        }
+        PlayerSpawn();
+    }
+
+    void PlayerSpawn()
+    {
+        transform.position = GameObject.Find("P"+ (PlayerNumber + 1) + "Spawn").transform.position;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        
     }
 
     // Update is called once per frame
