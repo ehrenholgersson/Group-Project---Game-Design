@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IDamage
     bool _dashAvailable = false;
     bool _facingright = true;
     bool _jump;
+    bool _blockState, _blockInput;
     float _speed = 40;
     public float Health {get; private set;}
     Vector2 _inputDirection;
@@ -46,6 +47,10 @@ public class Player : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
+        if (_blockState!=_blockInput)
+        {
+            ToggleBlock();
+        }
         if (!(_busyJobs > 0))
         {
             if ((_inputDirection.x < 0 && _facingright) || (_inputDirection.x > 0 && !_facingright))
@@ -156,6 +161,14 @@ public class Player : MonoBehaviour, IDamage
                 MovetoPoint(new Vector2(transform.localScale.x * 4, 0), 0.1f,0,0,true);
         Dodge(0.2f, 0f, 0f, false);
         _dashAvailable = false;
+    }
+
+    public void OnBlock(InputValue value)
+    {
+        if (value.Get<float>()>0.2f)
+            _blockInput = true;
+        else
+            _blockInput = false;
     }
 
     public void OnAction1(InputValue value)
@@ -364,6 +377,16 @@ public class Player : MonoBehaviour, IDamage
             await Task.Delay(25);
         if (busy)
             _busyJobs--;
+    }
+
+    void ToggleBlock()
+    {
+        if (_blockInput)
+            _busyJobs++;
+        else
+            _busyJobs--;
+
+        _blockState = !_blockState;
     }
 
     async void Dodge(float attackTime, float startDelay, float endDelay, bool busy)
