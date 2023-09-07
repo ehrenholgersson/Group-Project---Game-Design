@@ -27,8 +27,10 @@ public class GameController : MonoBehaviour
     GameObject _background;
     GameObject _characterScene;
     public static State GameState = State.Menu;
+    public static GameController Instance;
+    [SerializeField] GameObject _winScreen;
 
-    public enum State {Game, Menu}
+    public enum State {Game, Menu, WinScreen}
 
 
     private IDisposable _eventListener;
@@ -49,10 +51,19 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        Debug.Log(button.name);
-        if (_selectedmenu == 0)
+        if (GameState == State.WinScreen)
         {
-            ChangeMenu(1);
+            _winScreen.SetActive(false);
+            GameState = State.Menu;
+            ResetMenu();
+        }
+        else
+        {
+            Debug.Log(button.name);
+            if (_selectedmenu == 0)
+            {
+                ChangeMenu(1);
+            }
         }
         // check if player was spawned
 
@@ -160,7 +171,7 @@ public class GameController : MonoBehaviour
         {
             _readyplayers[player -1] = true;
             UpdateSelection();
-            if (_readyplayers.Count > 1)
+            //if (_readyplayers.Count > 1)
             {
                 foreach(bool ready in _readyplayers)
                 {
@@ -194,10 +205,15 @@ public class GameController : MonoBehaviour
         foreach (Player p in _players)
         {
             if (!p.Dead)
+            {
                 Debug.Log("player " + p.PlayerNumber + " won");
+                GameState = State.WinScreen;
+                _winScreen.SetActive(true);
+                _winScreen.GetComponent<WinScreen>().SetWinner(p.PlayerNumber+1);
+            }
         }
-        GameState = State.Menu;
-        ResetMenu();
+
+        //ResetMenu();
     }
     void UpdateSelection()
     { 
@@ -313,6 +329,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Instance = this;
         _characterScene = GameObject.Find("Characters");
         _levelBox = new Image[4, 4];
         for (int i = 1;i<5;i++)
