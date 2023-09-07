@@ -32,6 +32,6 @@ MonoBehaviour:
   ProjectileStart: {x: 0, y: 0}
   Movement: 1
   Force: {x: 0, y: 0}
-  Destination: {x: 2, y: 0}
+  Destination: {x: 2, y: 1}
   Speed: 0
   AnimationName: 
