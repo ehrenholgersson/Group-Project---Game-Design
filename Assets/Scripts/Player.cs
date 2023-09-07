@@ -517,7 +517,7 @@ public class Player : MonoBehaviour, IDamage
         while (Time.time < timer + startDelay)
             await Task.Delay(25);
 
-        _rb.AddForce(force);
+        _rb.AddForce(new Vector2(force.x * transform.localScale.x, force.y));
 
         //end delay
         timer = Time.time;
