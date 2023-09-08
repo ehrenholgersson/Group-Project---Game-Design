@@ -17,4 +17,5 @@ public class Character : ScriptableObject
     public List<Action> Input5;
     public List<Action> Input6;
     public bool DoubleJump = true;
+    public bool Mirror;
 }

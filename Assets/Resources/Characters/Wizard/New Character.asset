@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20be8f8c8ee0d842bfb994e4a95798f, type: 3}
+  m_Name: New Character
+  m_EditorClassIdentifier: 
+  Name: Wizard
+  Health: 100
+  Speed: 40
+  Mass: 1
+  Appearance: {fileID: 6022995091550823611, guid: 264709a5d75686641b101cab1747a43d, type: 3}
+  MovementInput: []
+  Input1:
+  - {fileID: 11400000, guid: 64436c5894f1eaa4694d4f4c9d1e093d, type: 2}
+  Input2: []
+  Input3:
+  - {fileID: 11400000, guid: 442516b563bcd7c45b2b39ca331f9576, type: 2}
+  - {fileID: 11400000, guid: 834e3980a4608bd4087ef280d866615f, type: 2}
+  - {fileID: 11400000, guid: 4e9f63dbaaacc0b4d8040485066911e5, type: 2}
+  Input4:
+  - {fileID: 11400000, guid: a819f75ea5ce4ac4398ae12332191591, type: 2}
+  - {fileID: 11400000, guid: 2f840cfd19afdce4080476a12f76feca, type: 2}
+  Input5: []
+  Input6: []
+  DoubleJump: 1
+  Mirror: 1

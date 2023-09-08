@@ -171,6 +171,7 @@ public class Player : MonoBehaviour, IDamage
     {
         if (PlayerCharacter != null && PlayerCharacter.Appearance != null)
         {
+
             _speed = PlayerCharacter.Speed;
             _rb.mass = PlayerCharacter.Mass;
             Health = PlayerCharacter.Health;
@@ -189,6 +190,12 @@ public class Player : MonoBehaviour, IDamage
                 _busyJobs = 0;
             else
                 _busyJobs = 1;
+
+            if (PlayerCharacter.Mirror)
+            {
+                gO.GetComponentInChildren<SpriteRenderer>().flipX = true;
+                Debug.Log("Mirror");
+            }
         }
         if (GameController.GameState == GameController.State.Game)
         {
