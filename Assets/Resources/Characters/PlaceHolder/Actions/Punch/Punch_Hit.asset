@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: 
   Type: 0
   Damage: 8
-  KnockBack: 30
+  KnockBack: 40
   KnockBackDirection: {x: 1, y: 0.8}
   AttackTime: 0.05
   StartDelay: 0.08
