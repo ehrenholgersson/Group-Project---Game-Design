@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -24,11 +25,14 @@ public class Player : MonoBehaviour, IDamage
     Vector2 _inputDirection;
     int _busyJobs;
     [SerializeField] GameObject _meleeBox;
+    [SerializeField] float _hitStunTime;
+    [SerializeField] float _blockStunTime;
     public Character PlayerCharacter { get; private set; }
     Image _healthbar;
     public int PlayerNumber { get; private set;}
     Animator _animator;
     GameController _gameController;
+    SpriteRenderer _playerSprite;
     public bool Dead {get; private set;}
 
 
@@ -143,11 +147,14 @@ public class Player : MonoBehaviour, IDamage
             Health -= damage;
             Debug.Log(gameObject.name + " is hit for " + damage + " damage.");
             _healthbar.fillAmount = Health / PlayerCharacter.Health;
-            //Animate("Hit", 0.1f);
-            Stun(0.1f);
+            //Animate("Hit", _hitStunTime);
+            Interrupt();
+            FlashColor(new Color(1, 0.5f, 0.5f), 0.2f);
+            Stun(_hitStunTime);
             if (Health <=0 )
             {
                 Dead = true;
+                Interrupt();
                 //_animator.Play("KO");
                 gameObject.layer = 7;
                 _busyJobs++;
@@ -156,8 +163,9 @@ public class Player : MonoBehaviour, IDamage
         }
         else
         {
-            //Animate("BlockHit",0.06f)
-            Stun(0.06f);
+            FlashColor(new Color(0.5f, 0.5f, 1), 0.2f);
+            //Animate("BlockHit",_blockStunTime)
+            Stun(_blockStunTime);
         }
     }
 
@@ -186,6 +194,7 @@ public class Player : MonoBehaviour, IDamage
             gO.transform.position = transform.position;
             gO.transform.SetParent(transform, true);
             _animator = gO.GetComponentInChildren<Animator>();
+            _playerSprite = gO.GetComponentInChildren<SpriteRenderer>();
             //enabled/disable movement based on game state
             if (GameController.GameState == GameController.State.Game)
                 _busyJobs = 0;
@@ -322,7 +331,7 @@ public class Player : MonoBehaviour, IDamage
                 switch (a.Type)
                 {
                     case Action.ActionType.Animation:
-                        StartCoroutine(Animate(a.AnimationName, a.AttackTime));
+                        Animate(a.AnimationName, a.AttackTime);
                         break;
                     case Action.ActionType.Melee:
                         Melee(a.HitPoints, a.Damage, a.KnockBack, a.KnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
@@ -376,7 +385,15 @@ public class Player : MonoBehaviour, IDamage
         //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         //Attack
         GameObject hitBox = Instantiate(_meleeBox);
         if (hitBox.TryGetComponent<MeleeHitBox>(out MeleeHitBox m))
@@ -393,13 +410,27 @@ public class Player : MonoBehaviour, IDamage
         if (hitPoints.Count == 1)
         {
             while (Time.time < timer + attackTime)
+            {
+                if (_interrupt)
+                {
+                    if (busy)
+                        _busyJobs--;
+                    return;
+                }
                 await Task.Delay(25);
+            }
         }
         else
         {
             for (int i = 0; i < hitPoints.Count - 1; i++)
                 while (Time.time < timer + (attackTime / (hitPoints.Count - 1)) * (i + 1))
                 {
+                    if (_interrupt)
+                    {
+                        if (busy)
+                            _busyJobs--;
+                        return;
+                    }
                     hitBox.transform.localPosition = Vector2.MoveTowards(hitPoints[i], hitPoints[i + 1], (Time.time - (timer + (attackTime / (hitPoints.Count - 1)) * i)) / (attackTime / (hitPoints.Count - 1)));
                     await Task.Delay(25);
                 }
@@ -413,7 +444,15 @@ public class Player : MonoBehaviour, IDamage
         // End Delay
         timer = Time.time;
         while (Time.time < timer + EndDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         if (busy)
             _busyJobs--;
     }
@@ -423,9 +462,17 @@ public class Player : MonoBehaviour, IDamage
         if (busy)
             _busyJobs++;
         //Initial Delay
-        float _timer = Time.time;
-        while (Time.time < _timer + startDelay)
+        float timer = Time.time;
+        while (Time.time < timer + startDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         // Shooty shoot
         GameObject gameObj = Instantiate(prefab);
         gameObj.transform.position = _rb.position + startPoint;
@@ -434,22 +481,55 @@ public class Player : MonoBehaviour, IDamage
             projectile.setup(direction, speed,damage,knockback, new Vector2(knockBackDirection.x * transform.localScale.x, knockBackDirection.y),1f,gameObject);
         }
         // End Delay
-        _timer = Time.time;
-        while (Time.time < _timer + EndDelay)
+        timer = Time.time;
+        while (Time.time < timer + EndDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         if (busy)
             _busyJobs--;
     }
 
-    IEnumerator Animate(String name, float time)
+    async void Animate(String name, float time)
     {
+        float timer = Time.time;
         if (_animator != null)
+        {
             _animator.Play(name);
+        }
 
-        yield return new WaitForSeconds(time);
+        while (Time.time < timer + time)
+        {
+            if (_interrupt) // exit early 
+            {
+                if (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == name) // return to idle unless we are already playing another animation
+                    _animator.Play("Idle");
+                return;
+            }
+            await Task.Delay(25);
+        }
 
         if (_animator != null)
+        {
             _animator.Play("Idle");
+        }
+    }
+
+    public async void FlashColor(Color color, float time)
+    {
+        float timer = Time.time;
+        _playerSprite.color = color;
+        while (Time.time < timer + time)
+        {
+            await Task.Delay(25);
+        }
+        _playerSprite.color = Color.white;
     }
 
     #region Movement 
@@ -464,13 +544,29 @@ public class Player : MonoBehaviour, IDamage
         //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         //Movement
         timer = Time.time;
         Vector2 direction = (destination).normalized;
         Debug.Log("speed is " + speed);
         while (Time.time < timer + attackTime)
         {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                _rb.gravityScale = 1;
+                _rb.velocity = direction * (speed / 4);
+                return;
+            }
             _rb.velocity = direction * speed;
             await Task.Delay(25);
         }
@@ -501,12 +597,29 @@ public class Player : MonoBehaviour, IDamage
         //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         // move player to layer 7 for specified time
         gameObject.layer = 7;
         timer = Time.time;
         while (Time.time < timer + attackTime)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                gameObject.layer = 3;
+                return;
+            }
             await Task.Delay(25);
+        }
         gameObject.layer = 3;
         // End Delay
         timer = Time.time;
@@ -523,14 +636,30 @@ public class Player : MonoBehaviour, IDamage
         //Initial Delay
         float timer = Time.time;
         while (Time.time < timer + startDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
 
         _rb.AddForce(new Vector2(force.x * transform.localScale.x, force.y));
 
         //end delay
         timer = Time.time;
         while (Time.time < timer + endDelay)
+        {
+            if (_interrupt)
+            {
+                if (busy)
+                    _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
+        }
         if (busy)
             _busyJobs--;
 
@@ -542,18 +671,32 @@ public class Player : MonoBehaviour, IDamage
         _busyJobs++;
         while (Time.time < timer + time)
         {
+            if (_interrupt)
+            {
+                _busyJobs--;
+                return;
+            }
             await Task.Delay(25);
         }
         _busyJobs--;
     }
-    async void Stun(float time, bool noInterrupt) // just sets the player as "busy" for specified time, for use with hit/block stun, option fo no interrupt so we can still use if interruping other actions
+    async void Stun(float time, bool Interruptable) // just sets the player as "busy" for specified time, for use with hit/block stun, option fo no interrupt so we can still use if interruping other actions
     {
+        float timer = Time.time;
         _busyJobs++;
-        await Task.Delay((int)(time * 1000));
+        while (Time.time < timer + time)
+        {
+            if (_interrupt && Interruptable)
+            {
+                _busyJobs--;
+                return;
+            }
+            await Task.Delay(25);
+        }
         _busyJobs--;
     }
 
-    async void interrupt()
+    async void Interrupt()
     {
         _interrupt = true;
         await Task.Delay(26);
