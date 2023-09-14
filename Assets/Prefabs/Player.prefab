@@ -86,7 +86,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meleeBox: {fileID: 2630532307040846156, guid: 5508bf3802771254cae3f7daae8dc0f8, type: 3}
-  _character: {fileID: 11400000, guid: 194fcab21ffa90e479f5e7d8fd4ac927, type: 2}
+  _hitStunTime: 0.6
+  _blockStunTime: 0.2
 --- !u!114 &6624603205968512130
 MonoBehaviour:
   m_ObjectHideFlags: 0
