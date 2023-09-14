@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class GameController : MonoBehaviour
     Image[,] _levelBox;
     [SerializeField] Image[] _playerBox;
     List<Player> _players = new List<Player>();
+    public List<Player> Players { get => _players; }
     List<bool> _readyplayers = new List<bool>();
     int _selectedLevel = 0;
     GameObject _background;
