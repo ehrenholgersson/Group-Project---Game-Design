@@ -24,12 +24,7 @@ public class CameraControl : MonoBehaviour
         Vector2 camPos;
         if (_gameRunning)
         {
-            if (GameController.GameState != GameController.State.Game)
-            {
-                transform.position = _defaultCameraPos;
-                _camera.orthographicSize = _defaultCameraSize;
-                _gameRunning = false;
-            }
+
             // set out min/max coorodinates needed for camera to first player, that way we have base values at least
             float maxX = GameController.Instance.Players[0].transform.position.x;
             float minX = GameController.Instance.Players[0].transform.position.x;
@@ -72,6 +67,13 @@ public class CameraControl : MonoBehaviour
             _camera.transform.position = new Vector3(camPos.x,camPos.y,-10);
             _camera.orthographicSize = zoomLevel;
 
+            if (GameController.GameState == GameController.State.Menu)
+            {
+                transform.position = _defaultCameraPos;
+                _camera.orthographicSize = _defaultCameraSize;
+                _gameRunning = false;
+
+            }
         }
 
         if (!_gameRunning && GameController.GameState == GameController.State.Game)
