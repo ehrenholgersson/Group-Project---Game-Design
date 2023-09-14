@@ -67,7 +67,7 @@ public class CameraControl : MonoBehaviour
             _camera.transform.position = new Vector3(camPos.x,camPos.y,-10);
             _camera.orthographicSize = zoomLevel;
 
-            if (GameController.GameState == GameController.State.Menu)
+            if (GameController.GameState != GameController.State.Game)
             {
                 transform.position = _defaultCameraPos;
                 _camera.orthographicSize = _defaultCameraSize;
