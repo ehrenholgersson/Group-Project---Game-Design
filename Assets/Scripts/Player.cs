@@ -18,6 +18,7 @@ public class Player : MonoBehaviour, IDamage
     bool _facingright = true;
     bool _jump;
     bool _blockState, _blockInput;
+    bool _interrupt = false;
     float _speed = 40;
     public float Health {get; private set;}
     Vector2 _inputDirection;
@@ -537,9 +538,26 @@ public class Player : MonoBehaviour, IDamage
 
     async void Stun(float time) // just sets the player as "busy" for specified time, for use with hit/block stun 
     {
+        float timer = Time.time;
+        _busyJobs++;
+        while (Time.time < timer + time)
+        {
+            await Task.Delay(25);
+        }
+        _busyJobs--;
+    }
+    async void Stun(float time, bool noInterrupt) // just sets the player as "busy" for specified time, for use with hit/block stun, option fo no interrupt so we can still use if interruping other actions
+    {
         _busyJobs++;
         await Task.Delay((int)(time * 1000));
         _busyJobs--;
+    }
+
+    async void interrupt()
+    {
+        _interrupt = true;
+        await Task.Delay(26);
+        _interrupt = false;
     }
 
     #endregion Movement 

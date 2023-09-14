@@ -1,0 +1,55 @@
+For Game Design
+
+Gameplay - priority for testing on Friday
+
+Robot - setup 
+serialize additional fields such as hitstun/blockstun duration
+player interrupt - implement
+
+Lower Priority
+
+wizard - additional setup
+Start/Quit Menu - add
+player "Ready" - add
+knockback direction away from hitbox
+serialize additional fields such as hitstun/blockstun duration
+
+bonus - make menu code less dumb
+
+Other Assesments:
+
+AI
+
+	AGENTS
+
+		Humanoid, limited movement, highest speed, needs keys to open doors to progress
+
+		Ogre, - can wade through water due to height, smashes some obstacles (these obstacles ignored on their navmesh and have trriggers to destory on collision)
+
+		Spider, able to jump over some obstacles, or on top of walls
+
+	OBSTACLES
+
+		water (plane at set level) - deep or shallow, Ogre able to traverse shallow - probably using navmesh modifier volumes at ste heights to implememnt this
+
+		walls - breakable or not, Ogre can traverse through breakable and this will "destroy" them so that ather agents can then traverse. depending on height spider can jump onto
+		
+		lava - just not part of the navmesh (AI will not traverse)
+
+	BEHAVIOURS
+
+		 human - always move to next "objective" (key door or exit) - agent must collect "key" in areas to progress, agent has a "panic" level which determines if they go for the treasure
+
+		Ogre, will move in general direction of human (pick random point within x distance of human), if within "hearing" range (just a set distance)  then this is more accurate, if within line of site ogre moves directly to player
+
+		spider will patrol within a set distance of their starting location unless line of site is obtained to human, if no line of site will continue to last seen position then resume patrol unless line of site is reestablished 
+		
+		
+		
+HANGMAN - make game? - confirm what other documentation/etc has to be done first
+
+INTOR TO UNITY - do thing
+
+VR THING - do it
+
+ICT - look at assesment
