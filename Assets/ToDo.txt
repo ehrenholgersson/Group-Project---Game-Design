@@ -3,8 +3,7 @@ For Game Design
 Gameplay - priority for testing on Friday
 
 Robot - setup 
-serialize additional fields such as hitstun/blockstun duration
-player interrupt - implement
+
 
 Lower Priority
 
@@ -12,7 +11,15 @@ wizard - additional setup
 Start/Quit Menu - add
 player "Ready" - add
 knockback direction away from hitbox
-serialize additional fields such as hitstun/blockstun duration
+add timer to win screen
+add menu selct boxes for all players
+update dungeon level
+
+look into character selection with analog input
+
+serialize additional fields such as hitstun/blockstun duration - done
+player interrupt - implement - done
+camera - done
 
 bonus - make menu code less dumb
 
@@ -24,9 +31,9 @@ AI
 
 		Humanoid, limited movement, highest speed, needs keys to open doors to progress
 
-		Ogre, - can wade through water due to height, smashes some obstacles (these obstacles ignored on their navmesh and have trriggers to destory on collision)
+		Ogre, - can wade through water due to height, smashes some obstacles (these obstacles ignored on their navmesh and have triggers to destory on collision)
 
-		Spider, able to jump over some obstacles, or on top of walls
+		Spider, able to jump over some obstacles, or onto top of walls
 
 	OBSTACLES
 

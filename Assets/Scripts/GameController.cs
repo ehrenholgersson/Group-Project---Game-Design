@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     public static State GameState = State.Menu;
     public static GameController Instance;
     [SerializeField] GameObject _winScreen;
+    [SerializeField] bool _allowSinglePlayer = false;
 
     public enum State {Game, Menu, WinScreen}
 
@@ -173,7 +174,7 @@ public class GameController : MonoBehaviour
         {
             _readyplayers[player -1] = true;
             UpdateSelection();
-            //if (_readyplayers.Count > 1)
+            if (_readyplayers.Count > 1||_allowSinglePlayer)
             {
                 foreach(bool ready in _readyplayers)
                 {

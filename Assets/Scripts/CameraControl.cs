@@ -9,12 +9,13 @@ public class CameraControl : MonoBehaviour
     Camera _camera;
     bool _gameRunning = false;
     Bounds _levelBounds = new Bounds();
-    Bounds _cameraBounds = new Bounds();
+    //Bounds _cameraBounds = new Bounds();
     float _maxZoom;
     [SerializeField] float _minCameraZoom = 5;
 
     private void Start()
     {
+        Cursor.visible = false;
         _camera = GetComponent<Camera>();
     }
     // Update is called once per frame

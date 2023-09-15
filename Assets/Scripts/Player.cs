@@ -221,7 +221,8 @@ public class Player : MonoBehaviour, IDamage
 
     private void OnDestroy()
     {
-        PlayerUI.Player[PlayerNumber].SetActive(false);
+        if (PlayerUI.Player!=null&& PlayerUI.Player[PlayerNumber]!=null)
+            PlayerUI.Player[PlayerNumber].SetActive(false);
     }
 
     #region Inputs
