@@ -1,26 +1,23 @@
 For Game Design
 
-Gameplay - priority for testing on Friday
-
-
-Start/Quit Menu - add
-player "Ready" - add
-add timer to win screen
-add menu selct boxes for all players - done
-
 Robot - setup 
-
-
-Lower Priority
 
 wizard - additional setup
 
 knockback direction away from hitbox
 
+test menu selection boxes for all 4 players, test win screen delay timer
 
 update dungeon level
 
 look into character selection with analog input
+
+//---------done--------------//
+
+Start/Quit Menu - donne
+player "Ready" - done
+add timer to win screen - done, not tested
+add menu selct boxes for all players - done
 
 serialize additional fields such as hitstun/blockstun duration - done
 player interrupt - implement - done

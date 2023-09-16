@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
 
 
     private IDisposable _eventListener; // don't know if this is still needed?
-    // Start is called before the first frame update
+    
 #region Menu Controls
 
 
@@ -64,23 +64,17 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        //if (GameState == State.WinScreen)
-        //{
-        //    _winScreen.SetActive(false);
-        //    GameState = State.Menu;
-        //    ResetMenu();
-        //}
-        //else
-        //{
-        //    Debug.Log(button.name);
-        //    //if (_selectedmenu == 0)
-        //    //{
-        //    //    ChangeMenu(1);
-        //    //}
-        //}
-        //// check if player was spawned
+        if (GameState == State.WinScreen && (Time.time - _menutimer > 0.3f))
+        {
+            _winScreen.SetActive(false);
+            GameState = State.Menu;
+            ResetMenu();
+        }
+        else if (_selectedmenu == 0 && (Time.time - _menutimer > 0.3f))
+        {
+            ChangeMenu(1);
+        }
 
-        ////if (button.name == )
     }
 
     void ChangeMenu(int index)
@@ -392,6 +386,7 @@ public class GameController : MonoBehaviour
         Destroy(_background);
         _selectedLevel = UnityEngine.Random.Range(0, _levels.Length);
         _background = Instantiate(_levels[_selectedLevel]);
+        _menutimer = Time.time;
     }
     void OnEnable()
     {
