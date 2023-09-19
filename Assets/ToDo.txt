@@ -6,9 +6,9 @@ wizard - additional setup
 
 knockback direction away from hitbox
 
-test menu selection boxes for all 4 players, test win screen delay timer
-
 update dungeon level
+
+test menu selection boxes for all 4 players, test win screen delay timer
 
 look into character selection with analog input
 
@@ -57,8 +57,52 @@ AI
 		
 HANGMAN - make game? - confirm what other documentation/etc has to be done first
 
-INTOR TO UNITY - do thing
+INTOR TO UNITY  part 1 compare - Blender vs ProBuild
+
+1. Blender - 3d modelling and rendering, Probuild - Basic modeling in Unity Editor primarily for protyping 
+
+2. Probuild - Pro, immediacy of seeing object in editor immediatly. little/no learning curve as users typically already adept with unity editor
+
+Blender - professional level tool for mnaking final/high quality assets, feature rich, ? cons - learning curve, have to import, for unity slightly confusing as x/y axis are flipped around
+
+3. Blender, a chosen due to cost vs Maya and feature set vs Unity (Also as I have no prior experience and would like to learn something). Used for creating deatiled "final" assests.
+
+4. Manual, website, youtube (Donut tutorial)
+
+explain how selected software (Blender) is relevent to the demoiinstration and the industry.
+
+Find and cite sources and archives of information for learning abuot modelling and animation (blender specific - Donut tutorial, blender manual ) others
+
+Part 1 Task 2. - Planning demonstration
+
+Intro - who I am, why doing this
+uses of software, touch on things not covered now due to time constraints
+
+Install - 
+
+Open / New Project
+Basic layout
+navigation 
+object/edit modes
+editing mesh (Simple)
+texture/materials/animation ?
+save/load/import
+
+
+
+--------------------------------------
 
 VR THING - do it
 
-ICT - look at assesment
+ICT - support table
+
+Intent is for game feedback, but requests cover much more than this, multiple points of contact are required, or at least the option for users to categorise requests so they can be filtered to correct person/dept
+
+tickets have not been assigned for at least 5 days, a number of tickets are related to outage on the 6th which appears to have been resolved (as per feedback on additional ticket logged by same user that first reported the outage), but days later these requests are still marked as ongoing because nobody has been assigned them.
+
+A number of requests are very light on detail, this is likely due to only custoemr field the customer has being "Subject", need to add another field to prompt for more details, particularly in the case of technical requests.
+
+feedback page should have link to game manualk, faq, and login server status pages to allow customers to poptentially resolve issues   
+
+
+
