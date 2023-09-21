@@ -36,3 +36,4 @@ MonoBehaviour:
   Force: {x: 0, y: 0}
   Destination: {x: 0, y: 0}
   Speed: 0
+  AnimationName: 
