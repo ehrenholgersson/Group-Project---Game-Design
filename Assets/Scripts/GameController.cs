@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour
     List<int>[] _playerSelection = new List<int>[] {new List<int>(),new List<int>() };
     Image[,] _levelBox;
     [SerializeField] Image[] _playerBox;
+    [SerializeField] SelectionBox[] _selectionboxes1 = new SelectionBox[2];
+    [SerializeField] SelectionBox[] _selectionboxes2 = new SelectionBox[2];
     List<Player> _players = new List<Player>();
     public List<Player> Players { get => _players; }
     List<bool> _readyplayers = new List<bool>();
@@ -31,13 +34,16 @@ public class GameController : MonoBehaviour
     public static State GameState = State.Menu;
     public static GameController Instance;
     [SerializeField] GameObject _winScreen;
+    [SerializeField] GameObject[] _ready = new GameObject[4];
     [SerializeField] bool _allowSinglePlayer = false;
+
+    float _menutimer;
 
     public enum State {Game, Menu, WinScreen}
 
 
     private IDisposable _eventListener; // don't know if this is still needed?
-    // Start is called before the first frame update
+    
 #region Menu Controls
 
 
@@ -47,6 +53,10 @@ public class GameController : MonoBehaviour
         _readyplayers.Add(false);
         player.ChangeCharacter(_characters[0]);
         _playerSelection[0].Add(_players.Count);
+        if (GameState == State.Menu && _selectedmenu == 0)
+        {
+            ChangeMenu(1);
+        }
         UpdateSelection();
     }
 
@@ -54,27 +64,26 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        if (GameState == State.WinScreen)
+        if (GameState == State.WinScreen && (Time.time - _menutimer > 0.3f))
         {
             _winScreen.SetActive(false);
             GameState = State.Menu;
             ResetMenu();
         }
-        else
+        else if (_selectedmenu == 0 && (Time.time - _menutimer > 0.3f))
         {
-            Debug.Log(button.name);
-            if (_selectedmenu == 0)
-            {
-                ChangeMenu(1);
-            }
+            ChangeMenu(1);
         }
-        // check if player was spawned
 
-        //if (button.name == )
     }
 
     void ChangeMenu(int index)
     {
+        for (int i = 0; i< _readyplayers.Count; i++)
+        {
+            _readyplayers[i] = false;
+        }
+        _menutimer = Time.time;
         _selectedmenu = index;
         for (int i = 0; i < _menus.Length; i++)
         {
@@ -88,7 +97,14 @@ public class GameController : MonoBehaviour
                 _menus[i].gameObject.SetActive(false);
             }
         }
+        _playerSelection[0].Clear();
+        _playerSelection[1].Clear();
+        foreach (Player p in _players) 
+        {
+            _playerSelection[0].Add(p.PlayerNumber + 1);
+        }
         UpdateSelection();
+        Debug.Log("swapped to menu " + index);
     }
 
     public void MenuDown(int player)
@@ -104,6 +120,8 @@ public class GameController : MonoBehaviour
         {
             _playerSelection[1].Remove(player);
             _playerSelection[0].Add(player);
+            if (_playerSelection[1].Contains(player))
+                Debug.Log("failed to remove player from selection");
         }
         UpdateSelection();
 
@@ -117,8 +135,7 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        if (_selectedmenu == 1)
-            Debug.Log("Menu_right");
+        if (_selectedmenu == 2)
         {
             if (_playerSelection[0].Contains(player))
             {
@@ -147,8 +164,7 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        if (_selectedmenu == 1)
-            Debug.Log("Menu_right");
+        if (_selectedmenu == 2)
         {
             if (_playerSelection[0].Contains(player))
             {
@@ -170,7 +186,30 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        if ( _selectedmenu == 1)
+        if (_selectedmenu == 0)
+        {
+                ChangeMenu(1);
+        }
+        if (GameState == State.WinScreen)
+        {
+            _winScreen.SetActive(false);
+            GameState = State.Menu;
+            ResetMenu();
+        }
+        if (_selectedmenu == 1)
+        {
+            if (_playerSelection[0].Contains(player))
+            {
+                if (Time.time - _menutimer > 0.3f)
+                    ChangeMenu(2);
+            }
+            else if (_playerSelection[1].Contains(player))
+            {
+                Application.Quit();
+                Debug.Log("quit");
+            }
+        }
+            if (( _selectedmenu == 2 && Time.time - _menutimer > 0.3f))
         {
             _readyplayers[player -1] = true;
             UpdateSelection();
@@ -190,8 +229,13 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        if (_selectedmenu == 1)
-            _readyplayers[player - 1] = false;
+        if (_selectedmenu == 2)
+        {
+            if (_readyplayers[player - 1] == false)
+                ChangeMenu(1);
+            else
+                _readyplayers[player - 1] = false;
+        }
         UpdateSelection();
     }
 
@@ -213,6 +257,7 @@ public class GameController : MonoBehaviour
                 GameState = State.WinScreen;
                 _winScreen.SetActive(true);
                 _winScreen.GetComponent<WinScreen>().SetWinner(p.PlayerNumber+1);
+                _menutimer = Time.time;
             }
         }
 
@@ -220,13 +265,13 @@ public class GameController : MonoBehaviour
     }
     void UpdateSelection()
     { 
-        if (_selectedmenu == 1)
+        if (_selectedmenu == 2)
         {
             for (int i = 0; i < 4; i++)
             {
                 _playerBox[i].color = new Color(_playerBox[i].color.r, _playerBox[i].color.g, _playerBox[i].color.b, 0);
                 for (int k = 0; k < _levelBox.GetLength(1); k++)
-                    _levelBox[i, k].color = new Color(0,0,0,0);
+                    _levelBox[i, k].color = new Color(0, 0, 0, 0);
             }
             foreach (int i in _playerSelection[0])
             {
@@ -249,35 +294,52 @@ public class GameController : MonoBehaviour
                         break;
                 }
             }
-            int j = 0;
-            foreach (int i in _playerSelection[1])
-            {
-                switch (i)
-                {
-                    case 1:
-                        for (int k = 0; k < _levelBox.GetLength(1); k++)
-                            _levelBox[j, k].color = Color.red;
-                        break;
+            _selectionboxes2[1].Set(_playerSelection[1]);
+            //int j = 0;
+            //foreach (int i in _playerSelection[1])
+            //{
+            //    switch (i)
+            //    {
+            //        case 1:
+            //            for (int k = 0; k < _levelBox.GetLength(1); k++)
+            //                _levelBox[j, k].color = Color.red;
+            //            break;
 
-                    case 2:
-                        for (int k = 0; k < _levelBox.GetLength(1); k++)
-                            _levelBox[j, k].color = Color.blue;
-                        break;
+            //        case 2:
+            //            for (int k = 0; k < _levelBox.GetLength(1); k++)
+            //                _levelBox[j, k].color = Color.blue;
+            //            break;
 
-                    case 3:
-                        for (int k = 0; k < _levelBox.GetLength(1); k++)
-                            _levelBox[j, k].color = Color.green;
-                        break;
+            //        case 3:
+            //            for (int k = 0; k < _levelBox.GetLength(1); k++)
+            //                _levelBox[j, k].color = Color.green;
+            //            break;
 
-                    case 4:
-                        for (int k = 0; k < _levelBox.GetLength(1); k++)
-                            _levelBox[j, k].color = Color.yellow;
-                        break;
-                }
-                j++;
-            }
+            //        case 4:
+            //            for (int k = 0; k < _levelBox.GetLength(1); k++)
+            //                _levelBox[j, k].color = Color.yellow;
+            //            break;
+            //    }
+            //    j++;
+            //}
+        }
+        if (_selectedmenu == 1)
+        {
+            _selectionboxes1[0].Set(_playerSelection[0]);
+            _selectionboxes1[1].Set(_playerSelection[1]);
         }
         _levelName.text = _levels[_selectedLevel].name;
+        int count = 0;
+        foreach (GameObject ready in _ready)
+        {
+            if (_readyplayers.Count > count && _readyplayers[count])
+            {
+                _ready[count].SetActive(true);
+            }
+            else
+                _ready[count].SetActive(false);
+            count++;
+        }
     }
 
 
@@ -324,6 +386,7 @@ public class GameController : MonoBehaviour
         Destroy(_background);
         _selectedLevel = UnityEngine.Random.Range(0, _levels.Length);
         _background = Instantiate(_levels[_selectedLevel]);
+        _menutimer = Time.time;
     }
     void OnEnable()
     {

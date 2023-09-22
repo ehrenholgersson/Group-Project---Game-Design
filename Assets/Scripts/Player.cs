@@ -267,6 +267,9 @@ public class Player : MonoBehaviour, IDamage
 
     public void OnMoveAction(InputValue value)
     {
+        if (GameController.GameState == GameController.State.Menu)
+            _gameController.MenuSelect(PlayerNumber + 1);
+
         if (_dashAvailable&& !(_busyJobs > 0))
             if (_inputDirection.magnitude > 0.1f)
                 MovetoPoint(_inputDirection * 4, 0.1f,0,0,true);
@@ -293,7 +296,7 @@ public class Player : MonoBehaviour, IDamage
     public void OnAction2(InputValue value)
     {
         if (GameController.GameState == GameController.State.Menu)
-            _gameController.MenuSelect(PlayerNumber + 1);
+            _gameController.MenuBack(PlayerNumber + 1);
         if (!(_busyJobs > 0))
             ProcessActions(PlayerCharacter.Input2);
     }
