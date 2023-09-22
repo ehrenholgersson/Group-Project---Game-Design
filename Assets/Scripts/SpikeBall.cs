@@ -23,7 +23,10 @@ public class SpikeBall : MonoBehaviour
             Debug.Log("SpikeBall dealt " + (impulse * _damageMultiplier) + " damage to " + collision.collider.gameObject.name);
             if (damage > 0)
                 if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRB))
+                {
+                    Debug.Log("pushing player");
                     targetRB.AddForce((targetRB.worldCenterOfMass - _rb.worldCenterOfMass).normalized * _knockBack);
+                }
         }
     }
 }

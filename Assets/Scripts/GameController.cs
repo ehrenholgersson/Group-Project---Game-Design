@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    void ChangeMenu(int index)
+    void  ChangeMenu(int index)
     {
         for (int i = 0; i< _readyplayers.Count; i++)
         {
@@ -89,12 +89,12 @@ public class GameController : MonoBehaviour
         {
             if (i == index&&GameState==State.Menu)
             {
-                _menus[i].gameObject.SetActive(true);
+                _menus[i].SetActive(true);
                 
             }
             else
             {
-                _menus[i].gameObject.SetActive(false);
+                _menus[i].SetActive(false);
             }
         }
         _playerSelection[0].Clear();

@@ -682,7 +682,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Smashing Things - The Game
+  m_text: 'Smashformer
+
+    by Productive Bludgers '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4153,7 +4155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &926995459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5792,7 +5794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -51.1}
+  m_AnchoredPosition: {x: 0, y: -105.8}
   m_SizeDelta: {x: 338.3229, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1186874453
@@ -5815,7 +5817,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press jump key to start
+  m_text: Press any key to start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7109,8 +7111,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.1630001, y: -0.82219994, z: 0}
-    m_Extent: {x: 9.5731, y: 3.0096998, z: 0}
+    m_Center: {x: 0.17055035, y: -0.82595, z: 0}
+    m_Extent: {x: 9.57545, y: 3.0023499, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -8020,7 +8022,7 @@ MonoBehaviour:
   - {fileID: 1106720716}
   - {fileID: 451588678}
   - {fileID: 2000496198}
-  _allowSinglePlayer: 0
+  _allowSinglePlayer: 1
 --- !u!4 &1548158849
 Transform:
   m_ObjectHideFlags: 0
@@ -8864,7 +8866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1832097679
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9907,7 +9909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 148}
+  m_AnchoredPosition: {x: 0, y: 114.6}
   m_SizeDelta: {x: 410.4406, y: 54.5879}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2100814406
@@ -9930,7 +9932,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Smashing Things - The Game
+  m_text: Smashformer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
