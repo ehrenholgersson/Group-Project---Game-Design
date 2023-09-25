@@ -16,7 +16,8 @@ MonoBehaviour:
   Type: 0
   Damage: 10
   KnockBack: 200
-  KnockBackDirection: {x: 1, y: 0}
+  KBDirection: 1
+  CustomKnockBackDirection: {x: 1, y: 0}
   AttackTime: 0.1
   StartDelay: 0.2
   EndDelay: 0

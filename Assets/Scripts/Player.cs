@@ -339,10 +339,21 @@ public class Player : MonoBehaviour, IDamage
                 switch (a.Type)
                 {
                     case Action.ActionType.Animation:
-                        Animate(a.AnimationName, a.AttackTime,a.StartDelay);
+                        Animate(a.AnimationName, a.AttackTime, a.StartDelay);
                         break;
                     case Action.ActionType.Melee:
-                        Melee(a.HitPoints, a.Damage, a.KnockBack, a.CustomKnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
+                        switch (a.KBDirection)
+                        {
+                            case Action.KBType.Custom:
+                                Melee(a.HitPoints, a.Damage, a.KnockBack, a.CustomKnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy,false);
+                                break;
+                            case Action.KBType.FacingDirection:
+                                Melee(a.HitPoints, a.Damage, a.KnockBack, new Vector2(transform.lossyScale.x,0), a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy,false);
+                                break;
+                            case Action.KBType.Away:
+                                Melee(a.HitPoints, a.Damage, a.KnockBack, a.CustomKnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy,true);
+                                break;
+                        }
                         break;
                     case Action.ActionType.Projectile:
                         switch (a.Direction)
@@ -384,7 +395,7 @@ public class Player : MonoBehaviour, IDamage
     }
 
     #region Action Functions/Methods
-    async void Melee(List<Vector2> hitPoints,float damage, float knockBack,Vector2 knockBackDirection, float combo, float attackTime, float hitSize, float startDelay, float EndDelay, bool busy) //missing currently - Damage and knockback values
+    async void Melee(List<Vector2> hitPoints,float damage, float knockBack,Vector2 knockBackDirection, float combo, float attackTime, float hitSize, float startDelay, float EndDelay, bool busy,bool away) //missing currently - Damage and knockback values
     {
         if (hitPoints.Count < 1)
             return;
@@ -410,6 +421,7 @@ public class Player : MonoBehaviour, IDamage
             m.KnockBack = knockBack;
             m.KnockBackDirection = new Vector2(knockBackDirection.x * transform.localScale.x, knockBackDirection.y);
             m.ComboCount = combo;
+            m.KnockAway = away;
         }
         hitBox.transform.SetParent(transform, false);
         hitBox.transform.localPosition = hitPoints[0];

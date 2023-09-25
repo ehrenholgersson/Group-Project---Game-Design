@@ -96,7 +96,9 @@ public class ActionEditor : Editor
             case "Projectile":
                 EditorGUILayout.PropertyField(Damage);
                 EditorGUILayout.PropertyField(KnockBack);
-                EditorGUILayout.PropertyField(CustomKBDirection);
+                EditorGUILayout.PropertyField(KnockBackType);
+                if (KnockBackType.enumNames[KnockBackType.intValue] == "Custom")
+                    EditorGUILayout.PropertyField(CustomKBDirection);
                 EditorGUILayout.PropertyField(MaxCombo);
                 EditorGUILayout.PropertyField(StartDelay);
                 EditorGUILayout.PropertyField(EndDelay);

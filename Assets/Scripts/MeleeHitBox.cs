@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MeleeHitBox : MonoBehaviour
@@ -12,6 +13,7 @@ public class MeleeHitBox : MonoBehaviour
     public float Damage;
     public float KnockBack;
     public Vector2 KnockBackDirection;
+    public bool KnockAway;
     public void Start()
     {
         _circleCollider = GetComponent<CircleCollider2D>();
@@ -39,9 +41,19 @@ public class MeleeHitBox : MonoBehaviour
             if (collision.gameObject != transform.parent.gameObject && collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
             {
                 target.ApplyDamage(Damage);
-                if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb))
-                    //targetRb.AddForce((targetRb.position - new Vector2(transform.parent.position.x, transform.parent.position.y)).normalized * KnockBack);
+            if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb))
+            {
+                if (!KnockAway)
                     targetRb.AddForce(KnockBackDirection * KnockBack);
+                else
+                {
+                    if (transform.parent.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rB))
+                        targetRb.AddForce((targetRb.worldCenterOfMass - rB.worldCenterOfMass).normalized * KnockBack);
+                    else
+                        Debug.Log("rigidbody not found");
+                }
+                
+            }
                 _circleCollider.enabled = false;
                 _comboTimer = Time.time;
             }
