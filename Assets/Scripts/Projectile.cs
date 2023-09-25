@@ -53,17 +53,24 @@ public class Projectile : MonoBehaviour
     {
         //if (/*collision.gameObject.tag.Contains("Character") &&*/ collision.gameObject != _owner)
         //{
-            if (collision.gameObject != _owner && collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
-            {
-                target.ApplyDamage(_damage);
-                if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb))
-                    //targetRb.AddForce((targetRb.position - new Vector2(transform.parent.position.x, transform.parent.position.y)).normalized * KnockBack);
-                    targetRb.AddForce(_knockBackDirection * _knockback);
-                _circleCollider.enabled = false;
-                _comboTimer = Time.time;
-                if (_comboCount<=1)
-                    Destroy(gameObject);
-            }
+        if (collision.gameObject != _owner && collision.gameObject.TryGetComponent<IDamage>(out IDamage target))
+        {
+            target.ApplyDamage(_damage);
+            if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRb))
+                //targetRb.AddForce((targetRb.position - new Vector2(transform.parent.position.x, transform.parent.position.y)).normalized * KnockBack);
+                targetRb.AddForce(_knockBackDirection * _knockback);
+            _circleCollider.enabled = false;
+            _comboTimer = Time.time;
+            if (_comboCount <= 1)
+                Destroy(gameObject);
+        }
+        else if (collision.gameObject != _owner)
+        {
+            _circleCollider.enabled = false;
+            _comboTimer = Time.time;
+            if (_comboCount <= 1)
+                Destroy(gameObject);
+        }
         //}
     }
 }

@@ -123,6 +123,7 @@ public class ActionEditor : Editor
                 }
                 break;
             case "Animation":
+                EditorGUILayout.PropertyField(StartDelay);
                 EditorGUILayout.PropertyField(AnimationName);
                 EditorGUILayout.PropertyField(AttackTime);
                 break;

@@ -270,13 +270,17 @@ public class Player : MonoBehaviour, IDamage
         if (GameController.GameState == GameController.State.Menu)
             _gameController.MenuSelect(PlayerNumber + 1);
 
-        if (_dashAvailable&& !(_busyJobs > 0))
+        if (_dashAvailable && !(_busyJobs > 0))
+        {
             if (_inputDirection.magnitude > 0.1f)
-                MovetoPoint(_inputDirection * 4, 0.1f,0,0,true);
+                MovetoPoint(_inputDirection * 4, 0.1f, 0, 0, true);
             else
-                MovetoPoint(new Vector2(transform.localScale.x * 4, 0), 0.1f,0,0,true);
-        Dodge(0.2f, 0f, 0f, false);
-        _dashAvailable = false;
+                MovetoPoint(new Vector2(transform.localScale.x * 4, 0), 0.1f, 0, 0, true);
+
+            Dodge(0.2f, 0f, 0f, false);
+            _dashAvailable = false;
+            Animate("Dodge", 0.1f, 0);
+        }
     }
 
     public void OnBlock(InputValue value)
@@ -335,7 +339,7 @@ public class Player : MonoBehaviour, IDamage
                 switch (a.Type)
                 {
                     case Action.ActionType.Animation:
-                        Animate(a.AnimationName, a.AttackTime);
+                        Animate(a.AnimationName, a.AttackTime,a.StartDelay);
                         break;
                     case Action.ActionType.Melee:
                         Melee(a.HitPoints, a.Damage, a.KnockBack, a.KnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
@@ -500,9 +504,18 @@ public class Player : MonoBehaviour, IDamage
             _busyJobs--;
     }
 
-    async void Animate(String name, float time)
+    async void Animate(String name, float time, float startDelay)
     {
         float timer = Time.time;
+        while (Time.time < timer + startDelay)
+        {
+            if (_interrupt) // exit early 
+            {
+                return;
+            }
+            await Task.Delay(25);
+        }
+        timer = Time.time;
         if (_animator != null)
         {
             _animator.Play(name);
@@ -521,7 +534,8 @@ public class Player : MonoBehaviour, IDamage
 
         if (_animator != null)
         {
-            _animator.Play("Idle");
+            if (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == name) // return to idle unless we are already playing another animation
+                _animator.Play("Idle");
         }
     }
 

@@ -18,9 +18,15 @@ MonoBehaviour:
   Mass: 1
   Appearance: {fileID: 2332116653832670893, guid: 3db4d95fb673b5d4bb39e5e70bf5c9b6, type: 3}
   MovementInput: []
-  Input1: []
-  Input2: []
-  Input3: []
+  Input1:
+  - {fileID: 11400000, guid: c02ec6bf4b10f7648987e834c0fc0f04, type: 2}
+  - {fileID: 11400000, guid: 4a579f4cc07749e478269cd59c34f675, type: 2}
+  Input2:
+  - {fileID: 11400000, guid: 2a9b527c65893344cb5052e9a57a10d4, type: 2}
+  - {fileID: 11400000, guid: e29bf129bf0845747a1dd62173e75654, type: 2}
+  - {fileID: 11400000, guid: 07fb19c729d0d8a4d89f215d4049d0ff, type: 2}
+  Input3:
+  - {fileID: 11400000, guid: 78510b31f4c63d747b18b82fce645d78, type: 2}
   Input4: []
   Input5: []
   Input6: []
