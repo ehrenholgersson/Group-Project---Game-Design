@@ -342,24 +342,24 @@ public class Player : MonoBehaviour, IDamage
                         Animate(a.AnimationName, a.AttackTime,a.StartDelay);
                         break;
                     case Action.ActionType.Melee:
-                        Melee(a.HitPoints, a.Damage, a.KnockBack, a.KnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
+                        Melee(a.HitPoints, a.Damage, a.KnockBack, a.CustomKnockBackDirection, a.MaxCombo, a.AttackTime, a.HitSize, a.StartDelay, a.EndDelay, a.Busy);
                         break;
                     case Action.ActionType.Projectile:
                         switch (a.Direction)
                         {
                             case Action.DirectionType.InputDirection:
                                 if (_inputDirection.normalized.magnitude < 0.2f) // shoot forward if input is 0
-                                    Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                    Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack, a.CustomKnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 else
-                                    Shoot(_inputDirection.normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                    Shoot(_inputDirection.normalized, a.Damage, a.KnockBack, a.CustomKnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 //Debug.Log("fire projectile in input direction");
                                 break;
                             case Action.DirectionType.Custom:
-                                Shoot(new Vector2(a.CustomDirection.x * transform.localScale.x, a.CustomDirection.y).normalized, a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                Shoot(new Vector2(a.CustomDirection.x * transform.localScale.x, a.CustomDirection.y).normalized, a.Damage, a.KnockBack, a.CustomKnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 //Debug.Log("Fire Projectile in Custom direction " + (a.CustomDirection.x * transform.localScale.x) + "," + a.CustomDirection.y);
                                 break;
                             case Action.DirectionType.FacingDirection:
-                                Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack, a.KnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
+                                Shoot(new Vector2(transform.localScale.x, 0), a.Damage, a.KnockBack, a.CustomKnockBackDirection, new Vector2(a.ProjectileStart.x * transform.localScale.x, a.ProjectileStart.y), a.ProjectileSpeed, a.StartDelay, a.EndDelay, a.ProjectilePrefab, a.Busy);
                                 //Debug.Log("Fire Projectile in forward direction");
                                 break;
                         }

@@ -30,8 +30,9 @@ public class ActionEditor : Editor
 
     SerializedProperty MaxCombo;
     SerializedProperty Damage;
+    SerializedProperty KnockBackType;
     SerializedProperty KnockBack;
-    SerializedProperty KnockBackDirection;
+    SerializedProperty CustomKBDirection;
 
     SerializedProperty PlayerState;
     SerializedProperty AnimationName;
@@ -54,7 +55,8 @@ public class ActionEditor : Editor
         MaxCombo = serializedObject.FindProperty("MaxCombo");
         Damage = serializedObject.FindProperty("Damage");
         KnockBack = serializedObject.FindProperty("KnockBack");
-        KnockBackDirection = serializedObject.FindProperty("KnockBackDirection");
+        KnockBackType = serializedObject.FindProperty("KBDirection");
+        CustomKBDirection = serializedObject.FindProperty("CustomKnockBackDirection");
 
         AnimationName = serializedObject.FindProperty("AnimationName");
 
@@ -81,7 +83,9 @@ public class ActionEditor : Editor
             case "Melee":
                 EditorGUILayout.PropertyField(Damage);
                 EditorGUILayout.PropertyField(KnockBack);
-                EditorGUILayout.PropertyField(KnockBackDirection);
+                EditorGUILayout.PropertyField(KnockBackType);
+                if (KnockBackType.enumNames[KnockBackType.intValue] == "Custom")
+                    EditorGUILayout.PropertyField(CustomKBDirection);
                 EditorGUILayout.PropertyField(MaxCombo);
                 EditorGUILayout.PropertyField(HitPoints);
                 EditorGUILayout.PropertyField(AttackTime);
@@ -92,7 +96,7 @@ public class ActionEditor : Editor
             case "Projectile":
                 EditorGUILayout.PropertyField(Damage);
                 EditorGUILayout.PropertyField(KnockBack);
-                EditorGUILayout.PropertyField(KnockBackDirection);
+                EditorGUILayout.PropertyField(CustomKBDirection);
                 EditorGUILayout.PropertyField(MaxCombo);
                 EditorGUILayout.PropertyField(StartDelay);
                 EditorGUILayout.PropertyField(EndDelay);

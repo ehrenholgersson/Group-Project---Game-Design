@@ -10,6 +10,9 @@ public class Action : ScriptableObject
     public enum DirectionType { FacingDirection, InputDirection, Custom }
     public enum MovementType { AddForce, MoveToPoint, Dodge }
     public enum State { Airborne, Grounded, Both}
+
+    public enum KBType { FacingDirection, Away, Custom }
+
     #endregion 
 
     #region General Values
@@ -17,7 +20,8 @@ public class Action : ScriptableObject
     public ActionType Type;
     public float Damage;
     public float KnockBack;
-    public Vector2 KnockBackDirection = Vector2.right;
+    public KBType KBDirection = KBType.Custom;
+    public Vector2 CustomKnockBackDirection = Vector2.right;
     public float AttackTime;
     public float StartDelay;
     public float EndDelay;
