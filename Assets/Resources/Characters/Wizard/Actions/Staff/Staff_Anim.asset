@@ -16,8 +16,9 @@ MonoBehaviour:
   Type: 3
   Damage: 0
   KnockBack: 0
-  KnockBackDirection: {x: 1, y: 0}
-  AttackTime: 0.4
+  KBDirection: 0
+  CustomKnockBackDirection: {x: 1, y: 0}
+  AttackTime: 0.27
   StartDelay: 0
   EndDelay: 0
   Direction: 0

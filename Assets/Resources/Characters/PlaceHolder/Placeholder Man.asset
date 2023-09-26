@@ -33,7 +33,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93d1b169adedbca43931e36bf87c40e3, type: 2}
   - {fileID: 11400000, guid: d9f7bf05278b12e4fa226b2c8079dcfb, type: 2}
   - {fileID: 11400000, guid: 13ad2b77c404a7a46ae44ad7d3de00dd, type: 2}
-  Input4: []
+  Input4:
+  - {fileID: 11400000, guid: 02bab4549fd80fc429276689a84430d7, type: 2}
+  - {fileID: 11400000, guid: b99837115e0dab74588946ca381c62ba, type: 2}
+  - {fileID: 11400000, guid: 7c7fc6021ec3f374bb3bce97a95ff40f, type: 2}
+  - {fileID: 11400000, guid: 167af5d840ce2f743afbdc57eaae5839, type: 2}
   Input5: []
   Input6: []
   DoubleJump: 1
+  Mirror: 0

@@ -20,11 +20,16 @@ MonoBehaviour:
   MovementInput: []
   Input1:
   - {fileID: 11400000, guid: 64436c5894f1eaa4694d4f4c9d1e093d, type: 2}
-  Input2: []
+  - {fileID: 11400000, guid: 24137f00ba1385347bcd0aab53069014, type: 2}
+  - {fileID: 11400000, guid: 5e44085b37bf4fc4ba64fbbb6dc1186d, type: 2}
+  Input2:
+  - {fileID: 11400000, guid: bb9234060a351b3428e1bdef297e50c9, type: 2}
+  - {fileID: 11400000, guid: 7319e28ca05f3e34fbaeb4eaf17ee59b, type: 2}
   Input3:
   - {fileID: 11400000, guid: 442516b563bcd7c45b2b39ca331f9576, type: 2}
   - {fileID: 11400000, guid: 834e3980a4608bd4087ef280d866615f, type: 2}
   - {fileID: 11400000, guid: 4e9f63dbaaacc0b4d8040485066911e5, type: 2}
+  - {fileID: 11400000, guid: b51fb272d142b1f4fa4e979da0af54b7, type: 2}
   Input4:
   - {fileID: 11400000, guid: a819f75ea5ce4ac4398ae12332191591, type: 2}
   - {fileID: 11400000, guid: 2f840cfd19afdce4080476a12f76feca, type: 2}

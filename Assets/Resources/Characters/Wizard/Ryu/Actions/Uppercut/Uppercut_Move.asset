@@ -10,30 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a07d8d611380744297352a2872d7e9a, type: 3}
-  m_Name: New Action
+  m_Name: Uppercut_Move
   m_EditorClassIdentifier: 
   Name: 
-  Type: 0
-  Damage: 10
-  KnockBack: 200
-  KBDirection: 1
-  CustomKnockBackDirection: {x: 1, y: 0}
-  AttackTime: 0.1
-  StartDelay: 0.2
+  Type: 2
+  Damage: 0
+  KnockBack: 0
+  KnockBackDirection: {x: 1, y: 0}
+  AttackTime: 1.1
+  StartDelay: 0.4
   EndDelay: 0
   Direction: 0
   CustomDirection: {x: 0, y: 0}
   Busy: 1
-  PlayerState: 2
+  PlayerState: 1
   MaxCombo: 0
-  HitPoints:
-  - {x: 0, y: 0}
-  HitSize: 1.8
+  HitPoints: []
+  HitSize: 0.2
   ProjectilePrefab: {fileID: 0}
   ProjectileSpeed: 0
   ProjectileStart: {x: 0, y: 0}
-  Movement: 0
+  Movement: 1
   Force: {x: 0, y: 0}
-  Destination: {x: 0, y: 0}
-  Speed: 0
-  AnimationName: 
+  Destination: {x: 0, y: 5}
+  Speed: 1.1
