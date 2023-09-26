@@ -7111,8 +7111,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.16030025, y: -0.81534994, z: 0}
-    m_Extent: {x: 9.5744, y: 3.00275, z: 0}
+    m_Center: {x: 0.16449976, y: -0.8277, z: 0}
+    m_Extent: {x: 9.583099, y: 3.008, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -8022,7 +8022,7 @@ MonoBehaviour:
   - {fileID: 1106720716}
   - {fileID: 451588678}
   - {fileID: 2000496198}
-  _allowSinglePlayer: 1
+  _allowSinglePlayer: 0
 --- !u!4 &1548158849
 Transform:
   m_ObjectHideFlags: 0

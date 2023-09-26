@@ -155,7 +155,7 @@ public class Player : MonoBehaviour, IDamage
             {
                 Dead = true;
                 Interrupt();
-                //_animator.Play("KO");
+                _animator.Play("KO");
                 gameObject.layer = 7;
                 _busyJobs++;
                 _gameController.CheckWin();

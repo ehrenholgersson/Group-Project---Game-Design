@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Type: 1
-  Damage: 0
-  KnockBack: 0
-  KnockBackDirection: {x: 1, y: 0}
+  Damage: 8
+  KnockBack: 30
+  KBDirection: 0
+  CustomKnockBackDirection: {x: 1, y: 0}
   AttackTime: 0
   StartDelay: 0.2
   EndDelay: 0
@@ -28,7 +29,7 @@ MonoBehaviour:
   HitPoints: []
   HitSize: 0.2
   ProjectilePrefab: {fileID: 8255481883255286314, guid: 4ff6a87f54344cb4b86e024781a74fce, type: 3}
-  ProjectileSpeed: 50
+  ProjectileSpeed: 45
   ProjectileStart: {x: 0.6, y: -0.2}
   Movement: 0
   Force: {x: 0, y: 0}

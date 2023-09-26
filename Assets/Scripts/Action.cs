@@ -20,7 +20,7 @@ public class Action : ScriptableObject
     public ActionType Type;
     public float Damage;
     public float KnockBack;
-    public KBType KBDirection = KBType.Custom;
+    public KBType KBDirection = KBType.FacingDirection;
     public Vector2 CustomKnockBackDirection = Vector2.right;
     public float AttackTime;
     public float StartDelay;
