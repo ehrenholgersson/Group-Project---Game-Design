@@ -19,15 +19,15 @@ MonoBehaviour:
   Appearance: {fileID: 2332116653832670893, guid: 6b1b4846a5b9a7b4aa835980692f40f8, type: 3}
   MovementInput: []
   Input1:
-  - {fileID: 11400000, guid: af02d29b25682a04eb9aad8cf0a4d305, type: 2}
-  - {fileID: 11400000, guid: 0336b144ae13ac84b8af7de0e88685b0, type: 2}
-  - {fileID: 11400000, guid: 712845ee70e1a4c458984800190dc120, type: 2}
-  - {fileID: 11400000, guid: 7516b438f02e4e44b98da8db70751dc6, type: 2}
+  - {fileID: 11400000, guid: d18677ca21ad9564c9772ee58c027603, type: 2}
+  - {fileID: 11400000, guid: b295013784fb3ba40a09cef573ab51fd, type: 2}
+  - {fileID: 11400000, guid: 9d77da0ce7aa3c8498c6a8820479a3fc, type: 2}
+  - {fileID: 11400000, guid: 6237459f3b457f245a5b5d5053a1fdad, type: 2}
   Input2:
-  - {fileID: 11400000, guid: 889cf6efff9db2a4a836a8bb6fbbdf8a, type: 2}
-  - {fileID: 11400000, guid: b227e96aa3c0608489bf4c65a6a0c6de, type: 2}
-  - {fileID: 11400000, guid: 9fc1412a0bc916b458089dcfa8ee5ae0, type: 2}
-  - {fileID: 11400000, guid: 420f42815c82ad843b685e8efb66588a, type: 2}
+  - {fileID: 11400000, guid: 37d0c5694a8401d45aeaa53189f39a12, type: 2}
+  - {fileID: 11400000, guid: a135d50701e0b664a86276040c16852d, type: 2}
+  - {fileID: 11400000, guid: 6f97c591ac60ab848bb2dab140ee4ac9, type: 2}
+  - {fileID: 11400000, guid: ec380cc7b6db2c34d9e70fc1c3c51401, type: 2}
   Input3:
   - {fileID: 11400000, guid: 948bcde9346bd1d4582434d9dceffa33, type: 2}
   - {fileID: 11400000, guid: d1349807021821f40a2b1e9b2e019b47, type: 2}
@@ -35,9 +35,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 319b54c02d763144fb2b597cd524734d, type: 2}
   - {fileID: 11400000, guid: a7d3c3e51fb03b74283d74c2386cd434, type: 2}
   - {fileID: 11400000, guid: a1fab1663e0465c4bbf699e486d34f0d, type: 2}
-  Input5:
-  - {fileID: 11400000, guid: e1371c3be9596a14180fb84cbc81c7cd, type: 2}
-  - {fileID: 11400000, guid: 8e02b62f0b3e7e34a93f26a707ae6dd7, type: 2}
-  - {fileID: 11400000, guid: 9f307065641c01d4cb027dd5b15d6667, type: 2}
+  Input5: []
   Input6: []
   DoubleJump: 1
+  Mirror: 0

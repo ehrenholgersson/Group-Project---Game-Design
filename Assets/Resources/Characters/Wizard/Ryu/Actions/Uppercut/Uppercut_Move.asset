@@ -16,14 +16,15 @@ MonoBehaviour:
   Type: 2
   Damage: 0
   KnockBack: 0
-  KnockBackDirection: {x: 1, y: 0}
+  KBDirection: 0
+  CustomKnockBackDirection: {x: 1, y: 0}
   AttackTime: 1.1
   StartDelay: 0.4
   EndDelay: 0
   Direction: 0
   CustomDirection: {x: 0, y: 0}
   Busy: 1
-  PlayerState: 1
+  PlayerState: 2
   MaxCombo: 0
   HitPoints: []
   HitSize: 0.2
@@ -34,3 +35,4 @@ MonoBehaviour:
   Force: {x: 0, y: 0}
   Destination: {x: 0, y: 5}
   Speed: 1.1
+  AnimationName: 

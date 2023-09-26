@@ -618,6 +618,7 @@ public class Player : MonoBehaviour, IDamage
             _busyJobs--;
 
         _blockState = !_blockState;
+        _animator.SetBool("Block", _blockState);
     }
 
     async void Dodge(float attackTime, float startDelay, float endDelay, bool busy)
