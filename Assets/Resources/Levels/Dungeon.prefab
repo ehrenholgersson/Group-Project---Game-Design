@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &581899061116882094
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &1145946506562558961
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &1267814250002334848
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &1812026922120653210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,7 +1001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &1961448976698221331
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   - {x: -10.888073, y: -2.7355237, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 83688
+  m_InstanceId: 48986
   m_LocalBounds:
     m_Center: {x: -16.786873, y: -2.2818956, z: 0}
     m_Extent: {x: 5.8988, y: 0.45362806, z: 0}
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &2657795915614103311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1897,7 +1897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &2997179233707882690
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,7 +2028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &3065480207207535545
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,7 +2159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &3149461784911669255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,7 +2532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &3698710984170946175
 GameObject:
   m_ObjectHideFlags: 0
@@ -2933,7 +2933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &4618584370818170128
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,7 +3055,7 @@ MonoBehaviour:
   - {x: 20.564178, y: 2.6725426, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 83566
+  m_InstanceId: 48864
   m_LocalBounds:
     m_Center: {x: 11.387817, y: 3.1231985, z: 0}
     m_Extent: {x: 9.176362, y: 0.45065594, z: 0}
@@ -3250,7 +3250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &5440551634784635499
 GameObject:
   m_ObjectHideFlags: 0
@@ -3461,7 +3461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &5736117060296428361
 GameObject:
   m_ObjectHideFlags: 0
@@ -3592,7 +3592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &5838859844910846553
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,7 +3723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &5925571384218130394
 GameObject:
   m_ObjectHideFlags: 0
@@ -3854,7 +3854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &6025544448656941628
 GameObject:
   m_ObjectHideFlags: 0
@@ -4039,8 +4039,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 29.2131, y: -2.1041002, z: 0}
-    m_Extent: {x: 35.2615, y: 21.8023, z: 0}
+    m_Center: {x: 29.2097, y: -2.1020508, z: 0}
+    m_Extent: {x: 35.2623, y: 21.78755, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -4141,7 +4141,7 @@ MonoBehaviour:
   - {x: -5.6357875, y: 6.5707083, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 83490
+  m_InstanceId: 48788
   m_LocalBounds:
     m_Center: {x: -11.538578, y: 7.0251837, z: 0}
     m_Extent: {x: 5.90279, y: 0.4544754, z: 0}
@@ -4296,7 +4296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &6980373148342979121
 GameObject:
   m_ObjectHideFlags: 0
@@ -4427,7 +4427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &7466119000452814086
 GameObject:
   m_ObjectHideFlags: 0
@@ -4558,7 +4558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &7620386103968174349
 GameObject:
   m_ObjectHideFlags: 0
@@ -4772,7 +4772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &7759582814958499579
 GameObject:
   m_ObjectHideFlags: 0
@@ -4859,7 +4859,7 @@ MonoBehaviour:
   - {x: 22.290775, y: -7.571603, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 83760
+  m_InstanceId: 49056
   m_LocalBounds:
     m_Center: {x: 16.109272, y: -7.2220607, z: 0}
     m_Extent: {x: 6.1815033, y: 0.34954214, z: 0}
@@ -5072,7 +5072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &7942812539525279513
 GameObject:
   m_ObjectHideFlags: 0
@@ -5361,7 +5361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &8218581425955065885
 GameObject:
   m_ObjectHideFlags: 0
@@ -5448,7 +5448,7 @@ MonoBehaviour:
   - {x: 4.1178846, y: -7.5209637, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 83544
+  m_InstanceId: 48842
   m_LocalBounds:
     m_Center: {x: -1.7869778, y: -7.1236343, z: 0}
     m_Extent: {x: 5.9048624, y: 0.39732933, z: 0}
@@ -5641,7 +5641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &8541282006287574156
 GameObject:
   m_ObjectHideFlags: 0
@@ -5930,7 +5930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _knockBack: 5000
+  _knockBack: 800
 --- !u!1 &9206527088112898304
 GameObject:
   m_ObjectHideFlags: 0
@@ -6227,7 +6227,7 @@ MonoBehaviour:
   - {x: -3.0893078, y: 2.1403265, z: 0.00000023841858}
   m_ShapePathHash: -1208004867
   m_Mesh: {fileID: 0}
-  m_InstanceId: -213722
+  m_InstanceId: 49126
   m_LocalBounds:
     m_Center: {x: -2.218027, y: 3.9121907, z: 0}
     m_Extent: {x: 2.7517796, y: 2.6721861, z: 0}

@@ -23,7 +23,11 @@ public class Spike : MonoBehaviour
         {
             target.ApplyDamage(_damage);
             if (collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D targetRB))
-                targetRB.AddForce((targetRB.worldCenterOfMass - _rb.worldCenterOfMass).normalized * _knockBack);
+            {
+                // --spike has no rigidbody-- -
+                //    targetRB.AddForce((targetRB.worldCenterOfMass - _rb.worldCenterOfMass).normalized * _knockBack);
+                targetRB.AddForce((targetRB.worldCenterOfMass - new Vector2(transform.position.x, transform.position.y)).normalized * _knockBack);
+            }
         }
     }
 }
