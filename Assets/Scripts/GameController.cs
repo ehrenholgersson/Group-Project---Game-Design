@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Game)
             return;
-        if (GameState == State.WinScreen && (Time.time - _menutimer > 0.3f))
+        if (GameState == State.WinScreen && (Time.time - _menutimer > 3))
         {
             _winScreen.SetActive(false);
             GameState = State.Menu;
