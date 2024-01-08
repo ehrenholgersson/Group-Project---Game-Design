@@ -1,5 +1,7 @@
 # Productive Bludgers Game Design Group Project
 
+![See it in action (YouTube)](https://www.youtube.com/watch?v=C9T-NC0CB38)
+
 ## How to download and add as new Unity Project
 
 <ol>
